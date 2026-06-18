@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operación Diaria</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root{
+    --ink:#1C1A17;
+    --paper:#FAF7F2;
+    --paper-2:#F2EDE4;
+    --line:#DEDACF;
+    --rust:#B5502E;
+    --rust-dim:#E8D3C7;
+    --moss:#52684A;
+    --moss-dim:#DCE4D6;
+    --amber:#C18A2E;
+    --amber-dim:#F0E0BC;
+    --muted:#8A8478;
+    --white:#FFFFFF;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+
+  .wrap{max-width:760px; margin:0 auto; padding:28px 20px 80px;}
+
+  header{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:6px; flex-wrap:wrap; gap:8px;}
+  .brand{font-family:'Fraunces', serif; font-weight:600; font-size:28px; letter-spacing:-0.01em;}
+  .brand sup{font-family:'Inter',sans-serif; font-weight:600; font-size:12px; color:var(--rust); vertical-align:super; margin-left:4px;}
+  .date-now{font-size:13px; color:var(--muted); text-transform:capitalize;}
+
+  .subline{font-size:13px; color:var(--muted); margin-bottom:24px; border-bottom:1px solid var(--line); padding-bottom:20px;}
+
+  .syncbar{
+    display:flex; align-items:center; justify-content:space-between;
+    background:var(--white); border:1px solid var(--line); border-radius:10px;
+    padding:12px 16px; margin-bottom:28px; gap:12px; flex-wrap:wrap;
+  }
+  .sync-status{font-size:13px; color:var(--muted); display:flex; align-items:center; gap:8px;}
+  .dot-pulse{width:7px; height:7px; border-radius:50%; background:var(--moss); flex-shrink:0;}
+  .dot-pulse.syncing{background:var(--amber); animation:pulse 1s infinite;}
+  .dot-pulse.error{background:var(--rust);}
+  @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:0.3;}}
+  .btn{
+    font-family:'Inter',sans-serif; font-size:13px; font-weight:600;
+    background:var(--ink); color:var(--paper); border:none; border-radius:7px;
+    padding:9px 16px; cursor:pointer; transition:opacity .15s;
+  }
+  .btn:hover{opacity:0.85;}
+
+  .metrics{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:32px;}
+  .metric{background:var(--white); border:1px solid var(--line); border-radius:10px; padding:14px 14px 12px;}
+  .metric .num{font-family:'Fraunces',serif; font-size:30px; font-weight:600; line-height:1;}
+  .metric .lbl{font-size:11.5px; color:var(--muted); margin-top:4px; letter-spacing:0.01em;}
+  .metric.in .num{color:var(--moss);}
+  .metric.out .num{color:var(--rust);}
+  .metric.clean .num{color:var(--amber);}
+
+  .section{margin-bottom:30px;}
+  .section-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px;}
+  .section-title{font-family:'Fraunces',serif; font-size:19px; font-weight:600;}
+  .section-count{font-size:12px; color:var(--muted);}
+
+  .card{
+    background:var(--white); border:1px solid var(--line); border-radius:10px;
+    padding:13px 15px; display:flex; align-items:center; gap:13px; margin-bottom:8px;
+    transition:border-color .15s;
+  }
+  .card.done{opacity:0.45;}
+  .card.done .card-name{text-decoration:line-through;}
+
+  .tag{
+    width:34px; height:34px; border-radius:8px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces',serif; font-weight:600; font-size:13px;
+  }
+  .tag.in{background:var(--moss-dim); color:var(--moss);}
+  .tag.out{background:var(--rust-dim); color:var(--rust);}
+
+  .card-info{flex:1; min-width:0;}
+  .card-name{font-size:14.5px; font-weight:600;}
+  .card-sub{font-size:12.5px; color:var(--muted); margin-top:1px;}
+
+  .check{
+    width:26px; height:26px; border-radius:50%; border:1.5px solid var(--line);
+    background:transparent; cursor:pointer; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    color:transparent; font-size:13px; transition:all .15s;
+  }
+  .check:hover{border-color:var(--moss);}
+  .check.checked{background:var(--moss); border-color:var(--moss); color:var(--white);}
+
+  .empty-state{
+    text-align:center; padding:36px 20px; color:var(--muted); font-size:13.5px;
+    border:1px dashed var(--line); border-radius:10px;
+  }
+
+  .err-list{font-size:12px; color:var(--rust); margin-top:8px; line-height:1.6;}
+
+  footer{text-align:center; font-size:11.5px; color:var(--muted); margin-top:40px;}
+
+  @media (max-width:480px){
+    .metrics{grid-template-columns:repeat(2,1fr);}
+    .brand{font-size:24px;}
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="wrap">
+    <header>
+      <div class="brand">Operación Diaria</div>
+    </header>
+    <div class="subline">Cargando tu día...</div>
+  </div>
+</div>
+
+<script>
+const DONE_KEY = 'airbnb_ops_done_v1';
+
+function loadDone(){
+  try{ return JSON.parse(localStorage.getItem(DONE_KEY) || '{}'); }catch(e){ return {}; }
+}
+function saveDone(d){ localStorage.setItem(DONE_KEY, JSON.stringify(d)); }
+
+function todayStr(){
+  const d = new Date();
+  return d.toISOString().slice(0,10);
+}
+
+function cardHTML(item, type, done){
+  const isDone = !!done[item.id];
+  const tagLabel = type === 'in' ? 'IN' : 'OUT';
+  const subLabel = type === 'in' ? 'Atención al cliente' : 'Programar limpieza';
+  return `
+    <div class="card ${isDone?'done':''}" id="card-${item.id}">
+      <div class="tag ${type}">${tagLabel}</div>
+      <div class="card-info">
+        <div class="card-name">${item.prop}${item.owner ? ' · ' + item.owner : ''}</div>
+        <div class="card-sub">${subLabel}</div>
+      </div>
+      <button class="check ${isDone?'checked':''}" onclick="toggleDone('${item.id}')">✓</button>
+    </div>
+  `;
+}
+
+window.toggleDone = function(id){
+  const done = loadDone();
+  done[id] = !done[id];
+  saveDone(done);
+  render(window.__lastData);
+};
+
+function render(data){
+  window.__lastData = data;
+  const now = new Date();
+  const dateLabel = now.toLocaleDateString('es-MX', { weekday:'long', day:'numeric', month:'long' });
+  const today = todayStr();
+  const done = loadDone();
+
+  const allIn = [];
+  const allOut = [];
+  const errors = [];
+
+  data.properties.forEach(p => {
+    if(!p.ok){ errors.push(p.name); return; }
+    p.events.forEach(ev => {
+      if(ev.startDate === today){
+        allIn.push({ prop: p.name, owner: p.owner, id: p.name+'-in-'+ev.start });
+      }
+      if(ev.endDate === today){
+        allOut.push({ prop: p.name, owner: p.owner, id: p.name+'-out-'+ev.end });
+      }
+    });
+  });
+
+  const syncTime = new Date(data.syncedAt).toLocaleTimeString('es-MX', { hour:'2-digit', minute:'2-digit' });
+
+  document.getElementById('app').innerHTML = `
+    <div class="wrap">
+      <header>
+        <div class="brand">Operación Diaria<sup>${data.properties.length}</sup></div>
+        <div class="date-now">${dateLabel}</div>
+      </header>
+      <div class="subline">Sincronizado a las ${syncTime} · ${data.properties.length} propiedades conectadas</div>
+
+      <div class="syncbar">
+        <div class="sync-status">
+          <span class="dot-pulse ${errors.length>0?'error':''}"></span>
+          <span>${errors.length>0 ? errors.length + ' calendario(s) con error' : 'Todo sincronizado correctamente'}</span>
+        </div>
+        <button class="btn" onclick="location.reload()">Actualizar ↻</button>
+      </div>
+
+      <div class="metrics">
+        <div class="metric in"><div class="num">${allIn.length}</div><div class="lbl">Llegadas hoy</div></div>
+        <div class="metric out"><div class="num">${allOut.length}</div><div class="lbl">Salidas hoy</div></div>
+        <div class="metric clean"><div class="num">${allOut.filter(o=>!done[o.id]).length}</div><div class="lbl">Limpiezas pendientes</div></div>
+        <div class="metric"><div class="num">${errors.length}</div><div class="lbl">Errores de sync</div></div>
+      </div>
+
+      <div class="section">
+        <div class="section-head"><div class="section-title">Llegadas de hoy</div><div class="section-count">${allIn.length} ${allIn.length===1?'tarea':'tareas'}</div></div>
+        ${allIn.length === 0 ? '<div class="empty-state">No hay llegadas programadas para hoy.</div>' : allIn.map(i=>cardHTML(i,'in',done)).join('')}
+      </div>
+
+      <div class="section">
+        <div class="section-head"><div class="section-title">Salidas y limpiezas</div><div class="section-count">${allOut.length} ${allOut.length===1?'tarea':'tareas'}</div></div>
+        ${allOut.length === 0 ? '<div class="empty-state">No hay salidas programadas para hoy.</div>' : allOut.map(i=>cardHTML(i,'out',done)).join('')}
+      </div>
+
+      ${errors.length > 0 ? `<div class="err-list">No se pudieron sincronizar: ${errors.join(', ')}</div>` : ''}
+
+      <footer>Se actualiza automáticamente cada vez que abres la página</footer>
+    </div>
+  `;
+}
+
+function renderError(msg){
+  document.getElementById('app').innerHTML = `
+    <div class="wrap">
+      <header><div class="brand">Operación Diaria</div></header>
+      <div class="empty-state" style="margin-top:20px;">No se pudo sincronizar: ${msg}<br><br>
+      <button class="btn" onclick="location.reload()">Reintentar</button></div>
+    </div>
+  `;
+}
+
+fetch('/api/sync')
+  .then(r => r.json())
+  .then(data => {
+    if(data.error) throw new Error(data.error);
+    render(data);
+  })
+  .catch(e => renderError(e.message));
+</script>
+</body>
+</html>
