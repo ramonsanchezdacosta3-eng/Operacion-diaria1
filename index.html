@@ -5,164 +5,185 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Operación Diaria</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
 
   :root{
-    --ink:#1C1A17;
-    --paper:#FAF7F2;
-    --paper-2:#F2EDE4;
-    --line:#DEDACF;
-    --rust:#B5502E;
-    --rust-dim:#E8D3C7;
-    --moss:#52684A;
-    --moss-dim:#DCE4D6;
-    --amber:#C18A2E;
-    --amber-dim:#F0E0BC;
-    --muted:#8A8478;
+    --rausch:#FF385C;
+    --rausch-dark:#E31C5F;
+    --rausch-light:#FFE8EC;
+    --ink:#222222;
+    --gray-900:#222222;
+    --gray-700:#484848;
+    --gray-500:#717171;
+    --gray-300:#DDDDDD;
+    --gray-100:#F7F7F7;
+    --teal:#00A699;
+    --teal-light:#E0F7F5;
+    --gold:#FFB400;
+    --gold-light:#FFF6E0;
     --white:#FFFFFF;
+    --shadow-card: 0 1px 2px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.06);
+    --shadow-hover: 0 2px 4px rgba(0,0,0,0.1), 0 8px 20px rgba(0,0,0,0.10);
   }
 
   *{box-sizing:border-box; margin:0; padding:0;}
   body{
-    background:var(--paper);
+    background:var(--gray-100);
     color:var(--ink);
-    font-family:'Inter', sans-serif;
+    font-family:'Nunito', sans-serif;
     -webkit-font-smoothing:antialiased;
     min-height:100vh;
   }
 
-  .wrap{max-width:760px; margin:0 auto; padding:28px 20px 80px;}
+  .wrap{max-width:780px; margin:0 auto; padding:0 0 80px;}
 
-  header{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:6px; flex-wrap:wrap; gap:8px;}
-  .brand{font-family:'Fraunces', serif; font-weight:600; font-size:28px; letter-spacing:-0.01em;}
-  .brand sup{font-family:'Inter',sans-serif; font-weight:600; font-size:12px; color:var(--rust); vertical-align:super; margin-left:4px;}
-  .date-now{font-size:13px; color:var(--muted); text-transform:capitalize;}
-
-  .subline{font-size:13px; color:var(--muted); margin-bottom:20px; border-bottom:1px solid var(--line); padding-bottom:20px;}
-
-  /* Tabs */
-  .tabs{display:flex; gap:6px; margin-bottom:20px;}
-  .tab-btn{
-    font-family:'Inter',sans-serif; font-size:13.5px; font-weight:600;
-    background:transparent; color:var(--muted); border:1px solid var(--line); border-radius:8px;
-    padding:9px 18px; cursor:pointer; transition:all .15s;
+  .topbar{
+    background:var(--white); border-bottom:1px solid var(--gray-300);
+    padding:16px 20px; position:sticky; top:0; z-index:10;
   }
-  .tab-btn.active{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+  .topbar-inner{max-width:780px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:12px;}
+  .logo-row{display:flex; align-items:center; gap:10px;}
+  .logo-mark{
+    width:34px; height:34px; border-radius:10px; background:var(--rausch);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .logo-mark svg{width:19px; height:19px;}
+  .logo-text{font-weight:800; font-size:18px; letter-spacing:-0.02em; color:var(--gray-900);}
+  .now-pill{font-size:12.5px; color:var(--gray-500); font-weight:600; text-transform:capitalize;}
 
-  /* Day nav */
+  .content-pad{padding:18px 20px 0;}
+
+  .tabs{display:flex; gap:8px; margin-bottom:18px;}
+  .tab-btn{
+    font-family:'Nunito',sans-serif; font-size:14px; font-weight:700;
+    background:var(--white); color:var(--gray-700); border:1px solid var(--gray-300); border-radius:24px;
+    padding:10px 20px; cursor:pointer; transition:all .15s;
+  }
+  .tab-btn.active{background:var(--gray-900); color:var(--white); border-color:var(--gray-900);}
+  .tab-btn:hover:not(.active){border-color:var(--gray-500);}
+
   .daynav{
     display:flex; align-items:center; justify-content:space-between;
-    background:var(--white); border:1px solid var(--line); border-radius:10px;
-    padding:10px 12px; margin-bottom:16px; gap:10px;
+    background:var(--white); border:1px solid var(--gray-300); border-radius:16px;
+    padding:12px 14px; margin-bottom:16px; gap:10px; box-shadow:var(--shadow-card);
   }
   .daynav-mid{flex:1; text-align:center;}
-  .daynav-date{font-family:'Fraunces',serif; font-weight:600; font-size:16px; text-transform:capitalize;}
-  .daynav-sub{font-size:11.5px; color:var(--muted); margin-top:1px;}
+  .daynav-date{font-weight:800; font-size:17px; text-transform:capitalize; color:var(--gray-900);}
+  .daynav-sub{font-size:12px; color:var(--rausch); font-weight:700; margin-top:2px;}
   .nav-arrow{
-    width:34px; height:34px; border-radius:8px; border:1px solid var(--line); background:var(--white);
-    cursor:pointer; font-size:16px; color:var(--ink); display:flex; align-items:center; justify-content:center;
-    flex-shrink:0; transition:background .15s;
+    width:36px; height:36px; border-radius:50%; border:1px solid var(--gray-300); background:var(--white);
+    cursor:pointer; font-size:16px; color:var(--gray-900); display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; transition:all .15s; font-weight:700;
   }
-  .nav-arrow:hover{background:var(--paper-2);}
+  .nav-arrow:hover{background:var(--gray-100); border-color:var(--gray-500);}
   .today-pill{
-    font-size:11.5px; color:var(--rust); cursor:pointer; text-decoration:underline; flex-shrink:0;
-    background:none; border:none; padding:4px;
+    font-size:12px; color:var(--rausch); cursor:pointer; font-weight:700; flex-shrink:0;
+    background:var(--rausch-light); border:none; padding:8px 14px; border-radius:20px;
   }
 
   .syncbar{
     display:flex; align-items:center; justify-content:space-between;
-    background:var(--white); border:1px solid var(--line); border-radius:10px;
-    padding:12px 16px; margin-bottom:28px; gap:12px; flex-wrap:wrap;
+    font-size:12.5px; color:var(--gray-500); margin-bottom:18px; gap:10px; flex-wrap:wrap; font-weight:600;
   }
-  .sync-status{font-size:13px; color:var(--muted); display:flex; align-items:center; gap:8px;}
-  .dot-pulse{width:7px; height:7px; border-radius:50%; background:var(--moss); flex-shrink:0;}
-  .dot-pulse.error{background:var(--rust);}
+  .sync-status{display:flex; align-items:center; gap:7px;}
+  .dot-pulse{width:8px; height:8px; border-radius:50%; background:var(--teal); flex-shrink:0;}
+  .dot-pulse.error{background:var(--rausch);}
   .btn{
-    font-family:'Inter',sans-serif; font-size:13px; font-weight:600;
-    background:var(--ink); color:var(--paper); border:none; border-radius:7px;
-    padding:9px 16px; cursor:pointer; transition:opacity .15s;
+    font-family:'Nunito',sans-serif; font-size:13px; font-weight:700;
+    background:var(--rausch); color:var(--white); border:none; border-radius:20px;
+    padding:8px 16px; cursor:pointer; transition:background .15s;
   }
-  .btn:hover{opacity:0.85;}
+  .btn:hover{background:var(--rausch-dark);}
 
-  .metrics{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:32px;}
-  .metric{background:var(--white); border:1px solid var(--line); border-radius:10px; padding:14px 14px 12px;}
-  .metric .num{font-family:'Fraunces',serif; font-size:30px; font-weight:600; line-height:1;}
-  .metric .lbl{font-size:11.5px; color:var(--muted); margin-top:4px; letter-spacing:0.01em;}
-  .metric.in .num{color:var(--moss);}
-  .metric.out .num{color:var(--rust);}
-  .metric.clean .num{color:var(--amber);}
+  .metrics{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:24px;}
+  .metric{background:var(--white); border:1px solid var(--gray-300); border-radius:16px; padding:16px 14px 14px; box-shadow:var(--shadow-card);}
+  .metric .num{font-size:28px; font-weight:800; line-height:1;}
+  .metric .lbl{font-size:11.5px; color:var(--gray-500); margin-top:5px; font-weight:700; letter-spacing:0.01em;}
+  .metric.in .num{color:var(--teal);}
+  .metric.out .num{color:var(--rausch);}
+  .metric.clean .num{color:var(--gold);}
+  .metric.err .num{color:var(--gray-700);}
 
-  .section{margin-bottom:30px;}
-  .section-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px;}
-  .section-title{font-family:'Fraunces',serif; font-size:19px; font-weight:600;}
-  .section-count{font-size:12px; color:var(--muted);}
+  .section{margin-bottom:26px;}
+  .section-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:12px;}
+  .section-title{font-size:18px; font-weight:800; color:var(--gray-900); display:flex; align-items:center; gap:8px;}
+  .section-count{font-size:12.5px; color:var(--gray-500); font-weight:700;}
 
   .card{
-    background:var(--white); border:1px solid var(--line); border-radius:10px;
-    padding:13px 15px; display:flex; align-items:center; gap:13px; margin-bottom:8px;
-    transition:border-color .15s;
+    background:var(--white); border:1px solid var(--gray-300); border-radius:16px;
+    padding:14px 16px; display:flex; align-items:center; gap:14px; margin-bottom:10px;
+    transition:box-shadow .15s, border-color .15s; box-shadow:var(--shadow-card);
   }
-  .card.done{opacity:0.45;}
+  .card:hover{box-shadow:var(--shadow-hover);}
+  .card.done{opacity:0.5;}
   .card.done .card-name{text-decoration:line-through;}
 
   .tag{
-    width:34px; height:34px; border-radius:8px; flex-shrink:0;
+    width:42px; height:42px; border-radius:50%; flex-shrink:0;
     display:flex; align-items:center; justify-content:center;
-    font-family:'Fraunces',serif; font-weight:600; font-size:13px;
   }
-  .tag.in{background:var(--moss-dim); color:var(--moss);}
-  .tag.out{background:var(--rust-dim); color:var(--rust);}
+  .tag.in{background:var(--teal-light); color:var(--teal);}
+  .tag.out{background:var(--rausch-light); color:var(--rausch);}
+  .tag svg{width:20px; height:20px;}
 
   .card-info{flex:1; min-width:0;}
-  .card-name{font-size:14.5px; font-weight:600;}
-  .card-sub{font-size:12.5px; color:var(--muted); margin-top:1px;}
-  .card-date{font-size:11.5px; color:var(--muted); flex-shrink:0; text-align:right;}
+  .card-name{font-size:15px; font-weight:800; color:var(--gray-900);}
+  .card-sub{font-size:12.5px; color:var(--gray-500); margin-top:2px; font-weight:600;}
+  .card-date{font-size:11.5px; color:var(--gray-500); flex-shrink:0; text-align:right; font-weight:700;}
 
   .check{
-    width:26px; height:26px; border-radius:50%; border:1.5px solid var(--line);
+    width:30px; height:30px; border-radius:50%; border:2px solid var(--gray-300);
     background:transparent; cursor:pointer; flex-shrink:0;
     display:flex; align-items:center; justify-content:center;
-    color:transparent; font-size:13px; transition:all .15s;
+    color:transparent; font-size:14px; transition:all .15s; font-weight:900;
   }
-  .check:hover{border-color:var(--moss);}
-  .check.checked{background:var(--moss); border-color:var(--moss); color:var(--white);}
+  .check:hover{border-color:var(--teal);}
+  .check.checked{background:var(--teal); border-color:var(--teal); color:var(--white);}
 
   .empty-state{
-    text-align:center; padding:36px 20px; color:var(--muted); font-size:13.5px;
-    border:1px dashed var(--line); border-radius:10px;
+    text-align:center; padding:40px 20px; color:var(--gray-500); font-size:14px; font-weight:600;
+    border:1.5px dashed var(--gray-300); border-radius:16px; background:var(--white);
   }
 
-  .err-list{font-size:12px; color:var(--rust); margin-top:8px; line-height:1.6;}
+  .err-list{font-size:12.5px; color:var(--rausch); margin-top:10px; line-height:1.6; font-weight:600;}
 
-  footer{text-align:center; font-size:11.5px; color:var(--muted); margin-top:40px;}
+  footer{text-align:center; font-size:12px; color:var(--gray-500); margin-top:36px; padding-bottom:20px; font-weight:600;}
 
-  /* Week view */
-  .week-day-block{margin-bottom:22px;}
+  .week-day-block{margin-bottom:20px;}
   .week-day-head{
-    font-family:'Fraunces',serif; font-weight:600; font-size:15px;
+    font-weight:800; font-size:15px; color:var(--gray-900);
     display:flex; align-items:baseline; justify-content:space-between;
-    margin-bottom:8px; padding-bottom:6px; border-bottom:1px solid var(--line);
+    margin-bottom:10px; padding-bottom:8px; border-bottom:2px solid var(--gray-300);
     text-transform:capitalize;
   }
-  .week-day-head .wd-count{font-family:'Inter',sans-serif; font-size:11.5px; color:var(--muted); font-weight:500;}
-  .week-empty{font-size:12.5px; color:var(--muted); padding:6px 0 2px;}
+  .week-day-head .wd-count{font-size:12px; color:var(--gray-500); font-weight:700;}
+  .week-empty{font-size:13px; color:var(--gray-500); padding:6px 0 2px; font-weight:600;}
 
-  .week-summary{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:28px;}
+  .week-summary{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:24px;}
 
   @media (max-width:480px){
     .metrics{grid-template-columns:repeat(2,1fr);}
     .week-summary{grid-template-columns:repeat(3,1fr);}
-    .brand{font-size:24px;}
+    .logo-text{font-size:16px;}
   }
 </style>
 </head>
 <body>
 <div id="app">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="logo-row">
+        <div class="logo-mark">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C12 2 5 11 5 16C5 19.866 8.13401 23 12 23C15.866 23 19 19.866 19 16C19 11 12 2 12 2Z" fill="white"/></svg>
+        </div>
+        <div class="logo-text">Operación Diaria</div>
+      </div>
+    </div>
+  </div>
   <div class="wrap">
-    <header>
-      <div class="brand">Operación Diaria</div>
-    </header>
-    <div class="subline">Cargando tu operación...</div>
+    <div class="content-pad">
+      <div class="empty-state">Cargando tu operación...</div>
+    </div>
   </div>
 </div>
 
@@ -170,12 +191,14 @@
 const DONE_KEY = 'airbnb_ops_done_v1';
 const TZ = 'America/Mexico_City';
 
+const ICON_IN = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 17L6 12L11 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 12H18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 4H19C19.5523 4 20 4.44772 20 5V19C20 19.5523 19.5523 20 19 20H15" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const ICON_OUT = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 7L18 12L13 17" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 12H6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 4H5C4.44772 4 4 4.44772 4 5V19C4 19.5523 4.44772 20 5 20H9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
 function loadDone(){
   try{ return JSON.parse(localStorage.getItem(DONE_KEY) || '{}'); }catch(e){ return {}; }
 }
 function saveDone(d){ localStorage.setItem(DONE_KEY, JSON.stringify(d)); }
 
-// --- CDMX-aware date helpers ---
 function todayCDMX(){
   const parts = new Intl.DateTimeFormat('en-CA', {
     timeZone: TZ, year:'numeric', month:'2-digit', day:'2-digit'
@@ -220,18 +243,17 @@ let state = {
   selectedWeekAnchor: todayCDMX()
 };
 
-function cardHTML(item, type, done, showDate){
+function cardHTML(item, type, done){
   const isDone = !!done[item.id];
-  const tagLabel = type === 'in' ? 'IN' : 'OUT';
+  const icon = type === 'in' ? ICON_IN : ICON_OUT;
   const subLabel = type === 'in' ? 'Atención al cliente' : 'Programar limpieza';
   return `
     <div class="card ${isDone?'done':''}" id="card-${item.id}">
-      <div class="tag ${type}">${tagLabel}</div>
+      <div class="tag ${type}">${icon}</div>
       <div class="card-info">
         <div class="card-name">${item.prop}${item.owner ? ' · ' + item.owner : ''}</div>
         <div class="card-sub">${subLabel}</div>
       </div>
-      ${showDate ? `<div class="card-date">${shortLabel(item.date)}</div>` : ''}
       <button class="check ${isDone?'checked':''}" onclick="toggleDone('${item.id}')">✓</button>
     </div>
   `;
@@ -281,24 +303,30 @@ function buildIndex(data){
 }
 
 function renderShell(){
-  const today = todayCDMX();
-  document.querySelector('.wrap')?.remove();
-  const wrap = document.createElement('div');
-  wrap.className = 'wrap';
-  wrap.innerHTML = `
-    <header>
-      <div class="brand">Operación Diaria<sup id="propCount"></sup></div>
-      <div class="date-now" id="nowLabel"></div>
-    </header>
-    <div class="subline" id="syncLine"></div>
-    <div class="tabs">
-      <button class="tab-btn ${state.view==='day'?'active':''}" onclick="setView('day')">Día</button>
-      <button class="tab-btn ${state.view==='week'?'active':''}" onclick="setView('week')">Informe semanal</button>
+  document.getElementById('app').innerHTML = `
+    <div class="topbar">
+      <div class="topbar-inner">
+        <div class="logo-row">
+          <div class="logo-mark">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C12 2 5 11 5 16C5 19.866 8.13401 23 12 23C15.866 23 19 19.866 19 16C19 11 12 2 12 2Z" fill="white"/></svg>
+          </div>
+          <div class="logo-text">Operación Diaria</div>
+        </div>
+        <div class="now-pill" id="nowLabel"></div>
+      </div>
     </div>
-    <div id="content"></div>
-    <footer>Hora de Ciudad de México · Se actualiza al refrescar la página</footer>
+    <div class="wrap">
+      <div class="content-pad">
+        <div class="tabs">
+          <button class="tab-btn ${state.view==='day'?'active':''}" onclick="setView('day')">📋 Día</button>
+          <button class="tab-btn ${state.view==='week'?'active':''}" onclick="setView('week')">📊 Informe semanal</button>
+        </div>
+        <div class="syncbar" id="syncLine"></div>
+        <div id="content"></div>
+        <footer>Hora de Ciudad de México · Se actualiza al refrescar la página</footer>
+      </div>
+    </div>
   `;
-  document.getElementById('app').appendChild(wrap);
 }
 
 function renderDayView(idx){
@@ -314,30 +342,30 @@ function renderDayView(idx){
       <button class="nav-arrow" onclick="shiftDay(-1)">‹</button>
       <div class="daynav-mid">
         <div class="daynav-date">${dateLabel(d)}</div>
-        <div class="daynav-sub">${d === today ? 'Hoy' : ''}</div>
+        ${d === today ? '<div class="daynav-sub">HOY</div>' : ''}
       </div>
       <button class="nav-arrow" onclick="shiftDay(1)">›</button>
       ${d !== today ? `<button class="today-pill" onclick="goToday()">Hoy</button>` : ''}
     </div>
 
     <div class="metrics">
-      <div class="metric in"><div class="num">${allIn.length}</div><div class="lbl">Llegadas</div></div>
-      <div class="metric out"><div class="num">${allOut.length}</div><div class="lbl">Salidas</div></div>
-      <div class="metric clean"><div class="num">${allOut.filter(o=>!done[o.id]).length}</div><div class="lbl">Limpiezas pendientes</div></div>
-      <div class="metric"><div class="num">${idx.errors.length}</div><div class="lbl">Errores de sync</div></div>
+      <div class="metric in"><div class="num">${allIn.length}</div><div class="lbl">LLEGADAS</div></div>
+      <div class="metric out"><div class="num">${allOut.length}</div><div class="lbl">SALIDAS</div></div>
+      <div class="metric clean"><div class="num">${allOut.filter(o=>!done[o.id]).length}</div><div class="lbl">LIMPIEZAS</div></div>
+      <div class="metric err"><div class="num">${idx.errors.length}</div><div class="lbl">ERRORES</div></div>
     </div>
 
     <div class="section">
-      <div class="section-head"><div class="section-title">Llegadas</div><div class="section-count">${allIn.length} ${allIn.length===1?'tarea':'tareas'}</div></div>
-      ${allIn.length === 0 ? '<div class="empty-state">No hay llegadas programadas este día.</div>' : allIn.map(i=>cardHTML(i,'in',done,false)).join('')}
+      <div class="section-head"><div class="section-title">🛎️ Llegadas</div><div class="section-count">${allIn.length} ${allIn.length===1?'tarea':'tareas'}</div></div>
+      ${allIn.length === 0 ? '<div class="empty-state">No hay llegadas programadas este día 🌴</div>' : allIn.map(i=>cardHTML(i,'in',done)).join('')}
     </div>
 
     <div class="section">
-      <div class="section-head"><div class="section-title">Salidas y limpiezas</div><div class="section-count">${allOut.length} ${allOut.length===1?'tarea':'tareas'}</div></div>
-      ${allOut.length === 0 ? '<div class="empty-state">No hay salidas programadas este día.</div>' : allOut.map(i=>cardHTML(i,'out',done,false)).join('')}
+      <div class="section-head"><div class="section-title">🧹 Salidas y limpiezas</div><div class="section-count">${allOut.length} ${allOut.length===1?'tarea':'tareas'}</div></div>
+      ${allOut.length === 0 ? '<div class="empty-state">No hay salidas programadas este día 🌴</div>' : allOut.map(i=>cardHTML(i,'out',done)).join('')}
     </div>
 
-    ${idx.errors.length > 0 ? `<div class="err-list">No se pudieron sincronizar: ${idx.errors.join(', ')}</div>` : ''}
+    ${idx.errors.length > 0 ? `<div class="err-list">⚠️ No se pudieron sincronizar: ${idx.errors.join(', ')}</div>` : ''}
   `;
 }
 
@@ -369,8 +397,8 @@ function renderWeekView(idx){
       `;
     }
     const items = [
-      ...dd.in.map(i => cardHTML(i,'in',done,false)),
-      ...dd.out.map(i => cardHTML(i,'out',done,false))
+      ...dd.in.map(i => cardHTML(i,'in',done)),
+      ...dd.out.map(i => cardHTML(i,'out',done))
     ].join('');
     return `
       <div class="week-day-block">
@@ -385,21 +413,21 @@ function renderWeekView(idx){
       <button class="nav-arrow" onclick="shiftWeek(-1)">‹</button>
       <div class="daynav-mid">
         <div class="daynav-date">${rangeLabel}</div>
-        <div class="daynav-sub">${isCurrentWeek ? 'Esta semana' : ''}</div>
+        ${isCurrentWeek ? '<div class="daynav-sub">ESTA SEMANA</div>' : ''}
       </div>
       <button class="nav-arrow" onclick="shiftWeek(1)">›</button>
       ${!isCurrentWeek ? `<button class="today-pill" onclick="goThisWeek()">Esta semana</button>` : ''}
     </div>
 
     <div class="week-summary">
-      <div class="metric in"><div class="num">${totalIn}</div><div class="lbl">Llegadas en la semana</div></div>
-      <div class="metric out"><div class="num">${totalOut}</div><div class="lbl">Salidas en la semana</div></div>
-      <div class="metric clean"><div class="num">${totalCleanPending}</div><div class="lbl">Limpiezas pendientes</div></div>
+      <div class="metric in"><div class="num">${totalIn}</div><div class="lbl">LLEGADAS</div></div>
+      <div class="metric out"><div class="num">${totalOut}</div><div class="lbl">SALIDAS</div></div>
+      <div class="metric clean"><div class="num">${totalCleanPending}</div><div class="lbl">LIMPIEZAS</div></div>
     </div>
 
     ${dayBlocks}
 
-    ${idx.errors.length > 0 ? `<div class="err-list">No se pudieron sincronizar: ${idx.errors.join(', ')}</div>` : ''}
+    ${idx.errors.length > 0 ? `<div class="err-list">⚠️ No se pudieron sincronizar: ${idx.errors.join(', ')}</div>` : ''}
   `;
 }
 
@@ -408,11 +436,13 @@ function renderCurrentView(){
   renderShell();
   const idx = buildIndex(window.__lastData);
   const now = new Date();
-  const nowLabel = now.toLocaleDateString('es-MX', { timeZone:TZ, weekday:'long', day:'numeric', month:'long' });
+  const nowLabel = now.toLocaleDateString('es-MX', { timeZone:TZ, weekday:'short', day:'numeric', month:'short' });
   document.getElementById('nowLabel').textContent = nowLabel;
-  document.getElementById('propCount').textContent = window.__lastData.properties.length;
   const syncTime = new Date(window.__lastData.syncedAt).toLocaleTimeString('es-MX', { timeZone:TZ, hour:'2-digit', minute:'2-digit' });
-  document.getElementById('syncLine').textContent = `Sincronizado a las ${syncTime} (CDMX) · ${window.__lastData.properties.length} propiedades conectadas`;
+  document.getElementById('syncLine').innerHTML = `
+    <div class="sync-status"><span class="dot-pulse ${idx.errors.length>0?'error':''}"></span><span>${idx.errors.length>0 ? idx.errors.length + ' error(es) de sync' : 'Sincronizado a las '+syncTime}</span></div>
+    <span>${window.__lastData.properties.length} propiedades conectadas</span>
+  `;
 
   document.getElementById('content').innerHTML = state.view === 'day' ? renderDayView(idx) : renderWeekView(idx);
 }
@@ -424,11 +454,11 @@ function render(data){
 
 function renderError(msg){
   document.getElementById('app').innerHTML = `
-    <div class="wrap">
-      <header><div class="brand">Operación Diaria</div></header>
-      <div class="empty-state" style="margin-top:20px;">No se pudo sincronizar: ${msg}<br><br>
+    <div class="topbar"><div class="topbar-inner"><div class="logo-row"><div class="logo-mark"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C12 2 5 11 5 16C5 19.866 8.13401 23 12 23C15.866 23 19 19.866 19 16C19 11 12 2 12 2Z" fill="white"/></svg></div><div class="logo-text">Operación Diaria</div></div></div></div>
+    <div class="wrap"><div class="content-pad">
+      <div class="empty-state">No se pudo sincronizar: ${msg}<br><br>
       <button class="btn" onclick="location.reload()">Reintentar</button></div>
-    </div>
+    </div></div>
   `;
 }
 
