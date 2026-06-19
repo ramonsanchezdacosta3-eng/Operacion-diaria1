@@ -38,7 +38,36 @@
   .brand sup{font-family:'Inter',sans-serif; font-weight:600; font-size:12px; color:var(--rust); vertical-align:super; margin-left:4px;}
   .date-now{font-size:13px; color:var(--muted); text-transform:capitalize;}
 
-  .subline{font-size:13px; color:var(--muted); margin-bottom:24px; border-bottom:1px solid var(--line); padding-bottom:20px;}
+  .subline{font-size:13px; color:var(--muted); margin-bottom:20px; border-bottom:1px solid var(--line); padding-bottom:20px;}
+
+  /* Tabs */
+  .tabs{display:flex; gap:6px; margin-bottom:20px;}
+  .tab-btn{
+    font-family:'Inter',sans-serif; font-size:13.5px; font-weight:600;
+    background:transparent; color:var(--muted); border:1px solid var(--line); border-radius:8px;
+    padding:9px 18px; cursor:pointer; transition:all .15s;
+  }
+  .tab-btn.active{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+
+  /* Day nav */
+  .daynav{
+    display:flex; align-items:center; justify-content:space-between;
+    background:var(--white); border:1px solid var(--line); border-radius:10px;
+    padding:10px 12px; margin-bottom:16px; gap:10px;
+  }
+  .daynav-mid{flex:1; text-align:center;}
+  .daynav-date{font-family:'Fraunces',serif; font-weight:600; font-size:16px; text-transform:capitalize;}
+  .daynav-sub{font-size:11.5px; color:var(--muted); margin-top:1px;}
+  .nav-arrow{
+    width:34px; height:34px; border-radius:8px; border:1px solid var(--line); background:var(--white);
+    cursor:pointer; font-size:16px; color:var(--ink); display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; transition:background .15s;
+  }
+  .nav-arrow:hover{background:var(--paper-2);}
+  .today-pill{
+    font-size:11.5px; color:var(--rust); cursor:pointer; text-decoration:underline; flex-shrink:0;
+    background:none; border:none; padding:4px;
+  }
 
   .syncbar{
     display:flex; align-items:center; justify-content:space-between;
@@ -47,9 +76,7 @@
   }
   .sync-status{font-size:13px; color:var(--muted); display:flex; align-items:center; gap:8px;}
   .dot-pulse{width:7px; height:7px; border-radius:50%; background:var(--moss); flex-shrink:0;}
-  .dot-pulse.syncing{background:var(--amber); animation:pulse 1s infinite;}
   .dot-pulse.error{background:var(--rust);}
-  @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:0.3;}}
   .btn{
     font-family:'Inter',sans-serif; font-size:13px; font-weight:600;
     background:var(--ink); color:var(--paper); border:none; border-radius:7px;
@@ -89,6 +116,7 @@
   .card-info{flex:1; min-width:0;}
   .card-name{font-size:14.5px; font-weight:600;}
   .card-sub{font-size:12.5px; color:var(--muted); margin-top:1px;}
+  .card-date{font-size:11.5px; color:var(--muted); flex-shrink:0; text-align:right;}
 
   .check{
     width:26px; height:26px; border-radius:50%; border:1.5px solid var(--line);
@@ -108,8 +136,22 @@
 
   footer{text-align:center; font-size:11.5px; color:var(--muted); margin-top:40px;}
 
+  /* Week view */
+  .week-day-block{margin-bottom:22px;}
+  .week-day-head{
+    font-family:'Fraunces',serif; font-weight:600; font-size:15px;
+    display:flex; align-items:baseline; justify-content:space-between;
+    margin-bottom:8px; padding-bottom:6px; border-bottom:1px solid var(--line);
+    text-transform:capitalize;
+  }
+  .week-day-head .wd-count{font-family:'Inter',sans-serif; font-size:11.5px; color:var(--muted); font-weight:500;}
+  .week-empty{font-size:12.5px; color:var(--muted); padding:6px 0 2px;}
+
+  .week-summary{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:28px;}
+
   @media (max-width:480px){
     .metrics{grid-template-columns:repeat(2,1fr);}
+    .week-summary{grid-template-columns:repeat(3,1fr);}
     .brand{font-size:24px;}
   }
 </style>
@@ -120,24 +162,65 @@
     <header>
       <div class="brand">Operación Diaria</div>
     </header>
-    <div class="subline">Cargando tu día...</div>
+    <div class="subline">Cargando tu operación...</div>
   </div>
 </div>
 
 <script>
 const DONE_KEY = 'airbnb_ops_done_v1';
+const TZ = 'America/Mexico_City';
 
 function loadDone(){
   try{ return JSON.parse(localStorage.getItem(DONE_KEY) || '{}'); }catch(e){ return {}; }
 }
 function saveDone(d){ localStorage.setItem(DONE_KEY, JSON.stringify(d)); }
 
-function todayStr(){
-  const d = new Date();
-  return d.toISOString().slice(0,10);
+// --- CDMX-aware date helpers ---
+function todayCDMX(){
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: TZ, year:'numeric', month:'2-digit', day:'2-digit'
+  }).formatToParts(new Date());
+  const map = {};
+  parts.forEach(p => map[p.type] = p.value);
+  return `${map.year}-${map.month}-${map.day}`;
 }
 
-function cardHTML(item, type, done){
+function addDays(dateStr, n){
+  const [y,m,d] = dateStr.split('-').map(Number);
+  const dt = new Date(Date.UTC(y, m-1, d));
+  dt.setUTCDate(dt.getUTCDate() + n);
+  return dt.toISOString().slice(0,10);
+}
+
+function dateLabel(dateStr){
+  const [y,m,d] = dateStr.split('-').map(Number);
+  const dt = new Date(Date.UTC(y, m-1, d, 12));
+  return dt.toLocaleDateString('es-MX', { timeZone:'UTC', weekday:'long', day:'numeric', month:'long' });
+}
+function shortLabel(dateStr){
+  const [y,m,d] = dateStr.split('-').map(Number);
+  const dt = new Date(Date.UTC(y, m-1, d, 12));
+  return dt.toLocaleDateString('es-MX', { timeZone:'UTC', weekday:'short', day:'numeric', month:'short' });
+}
+
+function weekDates(dateStr){
+  const [y,m,d] = dateStr.split('-').map(Number);
+  const dt = new Date(Date.UTC(y, m-1, d));
+  const dow = dt.getUTCDay();
+  const offsetToMonday = dow === 0 ? -6 : 1 - dow;
+  const monday = addDays(dateStr, offsetToMonday);
+  const days = [];
+  for(let i=0;i<7;i++) days.push(addDays(monday, i));
+  return days;
+}
+
+let state = {
+  view: 'day',
+  selectedDay: todayCDMX(),
+  selectedWeekAnchor: todayCDMX()
+};
+
+function cardHTML(item, type, done, showDate){
   const isDone = !!done[item.id];
   const tagLabel = type === 'in' ? 'IN' : 'OUT';
   const subLabel = type === 'in' ? 'Atención al cliente' : 'Programar limpieza';
@@ -148,6 +231,7 @@ function cardHTML(item, type, done){
         <div class="card-name">${item.prop}${item.owner ? ' · ' + item.owner : ''}</div>
         <div class="card-sub">${subLabel}</div>
       </div>
+      ${showDate ? `<div class="card-date">${shortLabel(item.date)}</div>` : ''}
       <button class="check ${isDone?'checked':''}" onclick="toggleDone('${item.id}')">✓</button>
     </div>
   `;
@@ -157,72 +241,185 @@ window.toggleDone = function(id){
   const done = loadDone();
   done[id] = !done[id];
   saveDone(done);
-  render(window.__lastData);
+  renderCurrentView();
 };
 
-function render(data){
-  window.__lastData = data;
-  const now = new Date();
-  const dateLabel = now.toLocaleDateString('es-MX', { weekday:'long', day:'numeric', month:'long' });
-  const today = todayStr();
-  const done = loadDone();
+window.setView = function(v){
+  state.view = v;
+  renderCurrentView();
+};
 
-  const allIn = [];
-  const allOut = [];
+window.shiftDay = function(n){
+  state.selectedDay = addDays(state.selectedDay, n);
+  renderCurrentView();
+};
+window.goToday = function(){
+  state.selectedDay = todayCDMX();
+  renderCurrentView();
+};
+window.shiftWeek = function(n){
+  state.selectedWeekAnchor = addDays(state.selectedWeekAnchor, n*7);
+  renderCurrentView();
+};
+window.goThisWeek = function(){
+  state.selectedWeekAnchor = todayCDMX();
+  renderCurrentView();
+};
+
+function buildIndex(data){
+  const byDate = {};
   const errors = [];
-
+  function ensure(d){ if(!byDate[d]) byDate[d] = { in:[], out:[] }; return byDate[d]; }
   data.properties.forEach(p => {
     if(!p.ok){ errors.push(p.name); return; }
     p.events.forEach(ev => {
-      if(ev.startDate === today){
-        allIn.push({ prop: p.name, owner: p.owner, id: p.name+'-in-'+ev.start });
-      }
-      if(ev.endDate === today){
-        allOut.push({ prop: p.name, owner: p.owner, id: p.name+'-out-'+ev.end });
-      }
+      ensure(ev.startDate).in.push({ prop:p.name, owner:p.owner, date:ev.startDate, id:p.name+'-in-'+ev.start });
+      ensure(ev.endDate).out.push({ prop:p.name, owner:p.owner, date:ev.endDate, id:p.name+'-out-'+ev.end });
     });
   });
+  return { byDate, errors };
+}
 
-  const syncTime = new Date(data.syncedAt).toLocaleTimeString('es-MX', { hour:'2-digit', minute:'2-digit' });
-
-  document.getElementById('app').innerHTML = `
-    <div class="wrap">
-      <header>
-        <div class="brand">Operación Diaria<sup>${data.properties.length}</sup></div>
-        <div class="date-now">${dateLabel}</div>
-      </header>
-      <div class="subline">Sincronizado a las ${syncTime} · ${data.properties.length} propiedades conectadas</div>
-
-      <div class="syncbar">
-        <div class="sync-status">
-          <span class="dot-pulse ${errors.length>0?'error':''}"></span>
-          <span>${errors.length>0 ? errors.length + ' calendario(s) con error' : 'Todo sincronizado correctamente'}</span>
-        </div>
-        <button class="btn" onclick="location.reload()">Actualizar ↻</button>
-      </div>
-
-      <div class="metrics">
-        <div class="metric in"><div class="num">${allIn.length}</div><div class="lbl">Llegadas hoy</div></div>
-        <div class="metric out"><div class="num">${allOut.length}</div><div class="lbl">Salidas hoy</div></div>
-        <div class="metric clean"><div class="num">${allOut.filter(o=>!done[o.id]).length}</div><div class="lbl">Limpiezas pendientes</div></div>
-        <div class="metric"><div class="num">${errors.length}</div><div class="lbl">Errores de sync</div></div>
-      </div>
-
-      <div class="section">
-        <div class="section-head"><div class="section-title">Llegadas de hoy</div><div class="section-count">${allIn.length} ${allIn.length===1?'tarea':'tareas'}</div></div>
-        ${allIn.length === 0 ? '<div class="empty-state">No hay llegadas programadas para hoy.</div>' : allIn.map(i=>cardHTML(i,'in',done)).join('')}
-      </div>
-
-      <div class="section">
-        <div class="section-head"><div class="section-title">Salidas y limpiezas</div><div class="section-count">${allOut.length} ${allOut.length===1?'tarea':'tareas'}</div></div>
-        ${allOut.length === 0 ? '<div class="empty-state">No hay salidas programadas para hoy.</div>' : allOut.map(i=>cardHTML(i,'out',done)).join('')}
-      </div>
-
-      ${errors.length > 0 ? `<div class="err-list">No se pudieron sincronizar: ${errors.join(', ')}</div>` : ''}
-
-      <footer>Se actualiza automáticamente cada vez que abres la página</footer>
+function renderShell(){
+  const today = todayCDMX();
+  document.querySelector('.wrap')?.remove();
+  const wrap = document.createElement('div');
+  wrap.className = 'wrap';
+  wrap.innerHTML = `
+    <header>
+      <div class="brand">Operación Diaria<sup id="propCount"></sup></div>
+      <div class="date-now" id="nowLabel"></div>
+    </header>
+    <div class="subline" id="syncLine"></div>
+    <div class="tabs">
+      <button class="tab-btn ${state.view==='day'?'active':''}" onclick="setView('day')">Día</button>
+      <button class="tab-btn ${state.view==='week'?'active':''}" onclick="setView('week')">Informe semanal</button>
     </div>
+    <div id="content"></div>
+    <footer>Hora de Ciudad de México · Se actualiza al refrescar la página</footer>
   `;
+  document.getElementById('app').appendChild(wrap);
+}
+
+function renderDayView(idx){
+  const done = loadDone();
+  const d = state.selectedDay;
+  const today = todayCDMX();
+  const dayData = idx.byDate[d] || { in:[], out:[] };
+  const allIn = dayData.in;
+  const allOut = dayData.out;
+
+  return `
+    <div class="daynav">
+      <button class="nav-arrow" onclick="shiftDay(-1)">‹</button>
+      <div class="daynav-mid">
+        <div class="daynav-date">${dateLabel(d)}</div>
+        <div class="daynav-sub">${d === today ? 'Hoy' : ''}</div>
+      </div>
+      <button class="nav-arrow" onclick="shiftDay(1)">›</button>
+      ${d !== today ? `<button class="today-pill" onclick="goToday()">Hoy</button>` : ''}
+    </div>
+
+    <div class="metrics">
+      <div class="metric in"><div class="num">${allIn.length}</div><div class="lbl">Llegadas</div></div>
+      <div class="metric out"><div class="num">${allOut.length}</div><div class="lbl">Salidas</div></div>
+      <div class="metric clean"><div class="num">${allOut.filter(o=>!done[o.id]).length}</div><div class="lbl">Limpiezas pendientes</div></div>
+      <div class="metric"><div class="num">${idx.errors.length}</div><div class="lbl">Errores de sync</div></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><div class="section-title">Llegadas</div><div class="section-count">${allIn.length} ${allIn.length===1?'tarea':'tareas'}</div></div>
+      ${allIn.length === 0 ? '<div class="empty-state">No hay llegadas programadas este día.</div>' : allIn.map(i=>cardHTML(i,'in',done,false)).join('')}
+    </div>
+
+    <div class="section">
+      <div class="section-head"><div class="section-title">Salidas y limpiezas</div><div class="section-count">${allOut.length} ${allOut.length===1?'tarea':'tareas'}</div></div>
+      ${allOut.length === 0 ? '<div class="empty-state">No hay salidas programadas este día.</div>' : allOut.map(i=>cardHTML(i,'out',done,false)).join('')}
+    </div>
+
+    ${idx.errors.length > 0 ? `<div class="err-list">No se pudieron sincronizar: ${idx.errors.join(', ')}</div>` : ''}
+  `;
+}
+
+function renderWeekView(idx){
+  const done = loadDone();
+  const days = weekDates(state.selectedWeekAnchor);
+  const today = todayCDMX();
+  const isCurrentWeek = days.includes(today);
+
+  let totalIn = 0, totalOut = 0, totalCleanPending = 0;
+  days.forEach(d => {
+    const dd = idx.byDate[d] || { in:[], out:[] };
+    totalIn += dd.in.length;
+    totalOut += dd.out.length;
+    totalCleanPending += dd.out.filter(o=>!done[o.id]).length;
+  });
+
+  const rangeLabel = `${shortLabel(days[0])} – ${shortLabel(days[6])}`;
+
+  const dayBlocks = days.map(d => {
+    const dd = idx.byDate[d] || { in:[], out:[] };
+    const total = dd.in.length + dd.out.length;
+    if(total === 0){
+      return `
+        <div class="week-day-block">
+          <div class="week-day-head">${dateLabel(d)} <span class="wd-count">0 tareas</span></div>
+          <div class="week-empty">Sin movimientos.</div>
+        </div>
+      `;
+    }
+    const items = [
+      ...dd.in.map(i => cardHTML(i,'in',done,false)),
+      ...dd.out.map(i => cardHTML(i,'out',done,false))
+    ].join('');
+    return `
+      <div class="week-day-block">
+        <div class="week-day-head">${dateLabel(d)} <span class="wd-count">${total} ${total===1?'tarea':'tareas'}</span></div>
+        ${items}
+      </div>
+    `;
+  }).join('');
+
+  return `
+    <div class="daynav">
+      <button class="nav-arrow" onclick="shiftWeek(-1)">‹</button>
+      <div class="daynav-mid">
+        <div class="daynav-date">${rangeLabel}</div>
+        <div class="daynav-sub">${isCurrentWeek ? 'Esta semana' : ''}</div>
+      </div>
+      <button class="nav-arrow" onclick="shiftWeek(1)">›</button>
+      ${!isCurrentWeek ? `<button class="today-pill" onclick="goThisWeek()">Esta semana</button>` : ''}
+    </div>
+
+    <div class="week-summary">
+      <div class="metric in"><div class="num">${totalIn}</div><div class="lbl">Llegadas en la semana</div></div>
+      <div class="metric out"><div class="num">${totalOut}</div><div class="lbl">Salidas en la semana</div></div>
+      <div class="metric clean"><div class="num">${totalCleanPending}</div><div class="lbl">Limpiezas pendientes</div></div>
+    </div>
+
+    ${dayBlocks}
+
+    ${idx.errors.length > 0 ? `<div class="err-list">No se pudieron sincronizar: ${idx.errors.join(', ')}</div>` : ''}
+  `;
+}
+
+function renderCurrentView(){
+  if(!window.__lastData) return;
+  renderShell();
+  const idx = buildIndex(window.__lastData);
+  const now = new Date();
+  const nowLabel = now.toLocaleDateString('es-MX', { timeZone:TZ, weekday:'long', day:'numeric', month:'long' });
+  document.getElementById('nowLabel').textContent = nowLabel;
+  document.getElementById('propCount').textContent = window.__lastData.properties.length;
+  const syncTime = new Date(window.__lastData.syncedAt).toLocaleTimeString('es-MX', { timeZone:TZ, hour:'2-digit', minute:'2-digit' });
+  document.getElementById('syncLine').textContent = `Sincronizado a las ${syncTime} (CDMX) · ${window.__lastData.properties.length} propiedades conectadas`;
+
+  document.getElementById('content').innerHTML = state.view === 'day' ? renderDayView(idx) : renderWeekView(idx);
+}
+
+function render(data){
+  window.__lastData = data;
+  renderCurrentView();
 }
 
 function renderError(msg){
