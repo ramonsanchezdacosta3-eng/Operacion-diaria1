@@ -95,6 +95,17 @@
   }
   .btn:hover{background:var(--rausch-dark);}
 
+  .notif-btn{
+    width:100%; font-family:'Nunito',sans-serif; font-size:14px; font-weight:700;
+    background:var(--white); color:var(--rausch); border:1.5px dashed var(--rausch); border-radius:14px;
+    padding:12px 16px; cursor:pointer; margin-bottom:18px; transition:background .15s;
+  }
+  .notif-btn:hover{background:var(--rausch-light);}
+  .notif-on{
+    width:100%; text-align:center; font-size:13px; font-weight:700; color:var(--teal);
+    background:var(--teal-light); border-radius:14px; padding:10px 16px; margin-bottom:18px;
+  }
+
   .metrics{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:24px;}
   .metric{background:var(--white); border:1px solid var(--gray-300); border-radius:16px; padding:16px 14px 14px; box-shadow:var(--shadow-card);}
   .metric .num{font-size:28px; font-weight:800; line-height:1;}
@@ -195,9 +206,31 @@ const ICON_IN = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2
 const ICON_OUT = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 7L18 12L13 17" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 12H6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 4H5C4.44772 4 4 4.44772 4 5V19C4 19.5523 4.44772 20 5 20H9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 function loadDone(){
+  // Server state is source of truth; cached locally for instant render
   try{ return JSON.parse(localStorage.getItem(DONE_KEY) || '{}'); }catch(e){ return {}; }
 }
 function saveDone(d){ localStorage.setItem(DONE_KEY, JSON.stringify(d)); }
+
+async function syncDoneToServer(id, value){
+  try{
+    await fetch('/api/done', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, value })
+    });
+  }catch(e){ /* offline-safe: local copy already saved */ }
+}
+
+async function pullDoneFromServer(){
+  try{
+    const res = await fetch('/api/done');
+    const serverDone = await res.json();
+    saveDone(serverDone);
+    return serverDone;
+  }catch(e){
+    return loadDone();
+  }
+}
 
 function todayCDMX(){
   const parts = new Intl.DateTimeFormat('en-CA', {
@@ -263,6 +296,7 @@ window.toggleDone = function(id){
   const done = loadDone();
   done[id] = !done[id];
   saveDone(done);
+  syncDoneToServer(id, done[id]);
   renderCurrentView();
 };
 
@@ -322,6 +356,7 @@ function renderShell(){
           <button class="tab-btn ${state.view==='week'?'active':''}" onclick="setView('week')">📊 Informe semanal</button>
         </div>
         <div class="syncbar" id="syncLine"></div>
+        ${!notifEnabled() ? `<button class="notif-btn" onclick="enableNotifications()">🔔 Activar notificaciones</button>` : `<div class="notif-on">🔔 Notificaciones activadas</div>`}
         <div id="content"></div>
         <footer>Hora de Ciudad de México · Se actualiza al refrescar la página</footer>
       </div>
@@ -462,13 +497,60 @@ function renderError(msg){
   `;
 }
 
-fetch('/api/sync')
-  .then(r => r.json())
-  .then(data => {
-    if(data.error) throw new Error(data.error);
+// --- Push Notifications setup ---
+const VAPID_PUBLIC_KEY = 'BCEeoQdwMjMQyF0gYsoUfQLItcMXlsAnF6MO0mpW8CYEbVfzunJ7cKRFWNbf6KFQiixH5GjM30X2es2tQ7djXX0';
+
+function urlBase64ToUint8Array(base64String){
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const rawData = window.atob(base64);
+  return Uint8Array.from([...rawData].map(c => c.charCodeAt(0)));
+}
+
+window.enableNotifications = async function(){
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+    alert('Tu navegador no soporta notificaciones push.');
+    return;
+  }
+  try {
+    const reg = await navigator.serviceWorker.register('/sw.js');
+    const permission = await Notification.requestPermission();
+    if (permission !== 'granted') {
+      alert('No se otorgó el permiso de notificaciones.');
+      return;
+    }
+    const sub = await reg.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+    });
+    await fetch('/api/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(sub)
+    });
+    localStorage.setItem('notif_enabled', '1');
+    renderCurrentView();
+  } catch (e) {
+    alert('No se pudo activar: ' + e.message);
+  }
+};
+
+function notifEnabled(){ return localStorage.getItem('notif_enabled') === '1'; }
+
+async function bootApp(){
+  await pullDoneFromServer();
+  try {
+    const r = await fetch('/api/sync');
+    const data = await r.json();
+    if (data.error) throw new Error(data.error);
     render(data);
-  })
-  .catch(e => renderError(e.message));
+  } catch (e) {
+    renderError(e.message);
+  }
+}
+
+bootApp();
+
 </script>
 </body>
 </html>
