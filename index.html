@@ -1,3 +1,7 @@
+Entendido — en vez de pills de filtro, quieres que las tarjetas aparezcan agrupadas visualmente por zona, con un encabezado por cada zona. Voy a actualizar el `index.html`.
+
+Sintaxis correcta. Aquí el código completo para pegar en GitHub:
+
 ```html
 <!DOCTYPE html>
 <html lang="es">
@@ -30,7 +34,6 @@
   body{background:var(--gray-100); color:var(--ink); font-family:'Nunito',sans-serif; -webkit-font-smoothing:antialiased; min-height:100vh;}
 
   .wrap{max-width:780px; margin:0 auto; padding:0 0 80px;}
-
   .topbar{background:var(--white); border-bottom:1px solid var(--gray-300); padding:16px 20px; position:sticky; top:0; z-index:10;}
   .topbar-inner{max-width:780px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:12px;}
   .logo-row{display:flex; align-items:center; gap:10px;}
@@ -38,18 +41,12 @@
   .logo-mark svg{width:19px; height:19px;}
   .logo-text{font-weight:800; font-size:18px; letter-spacing:-0.02em; color:var(--gray-900);}
   .now-pill{font-size:12.5px; color:var(--gray-500); font-weight:600; text-transform:capitalize;}
-
   .content-pad{padding:18px 20px 0;}
 
   .tabs{display:flex; gap:8px; margin-bottom:18px;}
   .tab-btn{font-family:'Nunito',sans-serif; font-size:14px; font-weight:700; background:var(--white); color:var(--gray-700); border:1px solid var(--gray-300); border-radius:24px; padding:10px 20px; cursor:pointer; transition:all .15s;}
   .tab-btn.active{background:var(--gray-900); color:var(--white); border-color:var(--gray-900);}
   .tab-btn:hover:not(.active){border-color:var(--gray-500);}
-
-  .zone-bar{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px;}
-  .zone-pill{font-family:'Nunito',sans-serif; font-size:12.5px; font-weight:700; background:var(--white); color:var(--gray-700); border:1px solid var(--gray-300); border-radius:20px; padding:6px 14px; cursor:pointer; transition:all .15s; white-space:nowrap;}
-  .zone-pill.active{background:var(--rausch); color:var(--white); border-color:var(--rausch);}
-  .zone-pill:hover:not(.active){border-color:var(--gray-500);}
 
   .daynav{display:flex; align-items:center; justify-content:space-between; background:var(--white); border:1px solid var(--gray-300); border-radius:16px; padding:12px 14px; margin-bottom:16px; gap:10px; box-shadow:var(--shadow-card);}
   .daynav-mid{flex:1; text-align:center;}
@@ -66,7 +63,6 @@
 
   .btn{font-family:'Nunito',sans-serif; font-size:13px; font-weight:700; background:var(--rausch); color:var(--white); border:none; border-radius:20px; padding:8px 16px; cursor:pointer; transition:background .15s;}
   .btn:hover{background:var(--rausch-dark);}
-
   .notif-btn{width:100%; font-family:'Nunito',sans-serif; font-size:14px; font-weight:700; background:var(--white); color:var(--rausch); border:1.5px dashed var(--rausch); border-radius:14px; padding:12px 16px; cursor:pointer; margin-bottom:18px; transition:background .15s;}
   .notif-btn:hover{background:var(--rausch-light);}
   .notif-on{width:100%; text-align:center; font-size:13px; font-weight:700; color:var(--teal); background:var(--teal-light); border-radius:14px; padding:10px 16px; margin-bottom:18px;}
@@ -80,12 +76,13 @@
   .metric.clean .num{color:var(--gold);}
   .metric.err .num{color:var(--gray-700);}
 
-  .section{margin-bottom:26px;}
-  .section-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:12px;}
-  .section-title{font-size:18px; font-weight:800; color:var(--gray-900); display:flex; align-items:center; gap:8px;}
-  .section-count{font-size:12.5px; color:var(--gray-500); font-weight:700;}
+  .zone-group{margin-bottom:28px;}
+  .zone-header{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; padding:8px 14px; background:var(--gray-900); border-radius:12px;}
+  .zone-header-name{font-size:14px; font-weight:800; color:var(--white); display:flex; align-items:center; gap:8px;}
+  .zone-header-count{font-size:12px; font-weight:700; color:rgba(255,255,255,0.6);}
+  .section-label{font-size:12px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:0.06em; margin:10px 0 8px 2px;}
 
-  .card{background:var(--white); border:1px solid var(--gray-300); border-radius:16px; padding:14px 16px; display:flex; align-items:center; gap:14px; margin-bottom:10px; transition:box-shadow .15s, border-color .15s; box-shadow:var(--shadow-card);}
+  .card{background:var(--white); border:1px solid var(--gray-300); border-radius:16px; padding:14px 16px; display:flex; align-items:center; gap:14px; margin-bottom:8px; transition:box-shadow .15s; box-shadow:var(--shadow-card);}
   .card:hover{box-shadow:var(--shadow-hover);}
   .card.done{opacity:0.5;}
   .card.done .card-name{text-decoration:line-through;}
@@ -97,9 +94,7 @@
 
   .card-info{flex:1; min-width:0;}
   .card-name{font-size:15px; font-weight:800; color:var(--gray-900);}
-  .card-meta{display:flex; align-items:center; gap:8px; margin-top:3px; flex-wrap:wrap;}
-  .card-sub{font-size:12.5px; color:var(--gray-500); font-weight:600;}
-  .zone-badge{font-size:11px; font-weight:700; background:var(--gray-100); color:var(--gray-700); border-radius:10px; padding:2px 8px; white-space:nowrap;}
+  .card-sub{font-size:12.5px; color:var(--gray-500); font-weight:600; margin-top:2px;}
 
   .check{width:30px; height:30px; border-radius:50%; border:2px solid var(--gray-300); background:transparent; cursor:pointer; flex-shrink:0; display:flex; align-items:center; justify-content:center; color:transparent; font-size:14px; transition:all .15s; font-weight:900;}
   .check:hover{border-color:var(--teal);}
@@ -138,21 +133,17 @@
 <script>
 const DONE_KEY = 'airbnb_ops_done_v1';
 const TZ = 'America/Mexico_City';
+const VAPID_PUBLIC_KEY = 'BCEeoQdwMjMQyF0gYsoUfQLItcMXlsAnF6MO0mpW8CYEbVfzunJ7cKRFWNbf6KFQiixH5GjM30X2es2tQ7djXX0';
 
 const ICON_IN = '<svg viewBox="0 0 24 24" fill="none"><path d="M11 17L6 12L11 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 12H18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 4H19C19.55 4 20 4.45 20 5V19C20 19.55 19.55 20 19 20H15" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const ICON_OUT = '<svg viewBox="0 0 24 24" fill="none"><path d="M13 7L18 12L13 17" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 12H6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 4H5C4.45 4 4 4.45 4 5V19C4 19.55 4.45 20 5 20H9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
-const VAPID_PUBLIC_KEY = 'BCEeoQdwMjMQyF0gYsoUfQLItcMXlsAnF6MO0mpW8CYEbVfzunJ7cKRFWNbf6KFQiixH5GjM30X2es2tQ7djXX0';
+const ZONE_ICONS = { 'Condesa':'🌳', 'Roma Sur':'🏛️', 'Cuauhtémoc Roma':'🏙️', 'Polanco':'💎', 'Monumento':'🗽', 'Nápoles':'🌆' };
 
 function loadDone(){ try{ return JSON.parse(localStorage.getItem(DONE_KEY)||'{}'); }catch(e){ return {}; } }
 function saveDone(d){ localStorage.setItem(DONE_KEY, JSON.stringify(d)); }
-
-async function syncDoneToServer(id, value){
-  try{ await fetch('/api/done',{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({id,value}) }); }catch(e){}
-}
-async function pullDoneFromServer(){
-  try{ const r=await fetch('/api/done'); const d=await r.json(); saveDone(d); return d; }catch(e){ return loadDone(); }
-}
+async function syncDoneToServer(id,value){ try{ await fetch('/api/done',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,value})}); }catch(e){} }
+async function pullDoneFromServer(){ try{ const r=await fetch('/api/done'); const d=await r.json(); saveDone(d); return d; }catch(e){ return loadDone(); } }
 
 function todayCDMX(){
   const parts=new Intl.DateTimeFormat('en-CA',{timeZone:TZ,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
@@ -181,35 +172,47 @@ function weekDates(dateStr){
   return days;
 }
 
-let state={ view:'day', selectedDay:todayCDMX(), selectedWeekAnchor:todayCDMX(), activeZone:'all' };
+let state={ view:'day', selectedDay:todayCDMX(), selectedWeekAnchor:todayCDMX() };
 
-function cardHTML(item, type, done){
+function cardHTML(item,type,done){
   const isDone=!!done[item.id];
   const icon=type==='in'?ICON_IN:ICON_OUT;
   const subLabel=type==='in'?'Atención al cliente':'Programar limpieza';
-  return `
-    <div class="card ${isDone?'done':''}" id="card-${item.id}">
-      <div class="tag ${type}">${icon}</div>
-      <div class="card-info">
-        <div class="card-name">${item.prop}${item.owner?' · '+item.owner:''}</div>
-        <div class="card-meta">
-          <span class="card-sub">${subLabel}</span>
-          ${item.zone?`<span class="zone-badge">${item.zone}</span>`:''}
-        </div>
-      </div>
-      <button class="check ${isDone?'checked':''}" onclick="toggleDone('${item.id}')">✓</button>
-    </div>`;
+  return `<div class="card ${isDone?'done':''}" id="card-${item.id}">
+    <div class="tag ${type}">${icon}</div>
+    <div class="card-info">
+      <div class="card-name">${item.prop}${item.owner?' · '+item.owner:''}</div>
+      <div class="card-sub">${subLabel}</div>
+    </div>
+    <button class="check ${isDone?'checked':''}" onclick="toggleDone('${item.id}')">✓</button>
+  </div>`;
 }
 
-window.toggleDone=function(id){
-  const done=loadDone(); done[id]=!done[id]; saveDone(done); syncDoneToServer(id,done[id]); renderCurrentView();
-};
+function renderZoneGroups(allIn,allOut,done){
+  const zones=Array.from(new Set([...allIn.map(i=>i.zone||'Sin zona'),...allOut.map(i=>i.zone||'Sin zona')])).sort();
+  if(zones.length===0) return '<div class="empty-state">No hay tareas programadas para este día 🌴</div>';
+  return zones.map(zone=>{
+    const ins=allIn.filter(i=>(i.zone||'Sin zona')===zone);
+    const outs=allOut.filter(i=>(i.zone||'Sin zona')===zone);
+    const total=ins.length+outs.length;
+    const icon=ZONE_ICONS[zone]||'📍';
+    return `<div class="zone-group">
+      <div class="zone-header">
+        <div class="zone-header-name">${icon} ${zone}</div>
+        <div class="zone-header-count">${total} ${total===1?'tarea':'tareas'}</div>
+      </div>
+      ${ins.length>0?`<div class="section-label">🛎️ Llegadas</div>${ins.map(i=>cardHTML(i,'in',done)).join('')}`:''}
+      ${outs.length>0?`<div class="section-label">🧹 Salidas y limpiezas</div>${outs.map(i=>cardHTML(i,'out',done)).join('')}`:''}
+    </div>`;
+  }).join('');
+}
+
+window.toggleDone=function(id){ const done=loadDone(); done[id]=!done[id]; saveDone(done); syncDoneToServer(id,done[id]); renderCurrentView(); };
 window.setView=function(v){ state.view=v; renderCurrentView(); };
 window.shiftDay=function(n){ state.selectedDay=addDays(state.selectedDay,n); renderCurrentView(); };
 window.goToday=function(){ state.selectedDay=todayCDMX(); renderCurrentView(); };
 window.shiftWeek=function(n){ state.selectedWeekAnchor=addDays(state.selectedWeekAnchor,n*7); renderCurrentView(); };
 window.goThisWeek=function(){ state.selectedWeekAnchor=todayCDMX(); renderCurrentView(); };
-window.setZone=function(z){ state.activeZone=z; renderCurrentView(); };
 
 function buildIndex(data){
   const byDate={}; const errors=[];
@@ -224,24 +227,7 @@ function buildIndex(data){
   return {byDate,errors};
 }
 
-function getZones(data){
-  const zones=new Set();
-  data.properties.forEach(p=>{ if(p.zone) zones.add(p.zone); });
-  return ['all',...Array.from(zones).sort()];
-}
-
-function zoneBar(zones){
-  return `<div class="zone-bar">
-    ${zones.map(z=>`<button class="zone-pill ${state.activeZone===z?'active':''}" onclick="setZone('${z}')">${z==='all'?'Todas las zonas':z}</button>`).join('')}
-  </div>`;
-}
-
-function filterByZone(items){
-  if(state.activeZone==='all') return items;
-  return items.filter(i=>i.zone===state.activeZone);
-}
-
-function renderShell(zones){
+function renderShell(){
   document.getElementById('app').innerHTML=`
     <div class="topbar">
       <div class="topbar-inner">
@@ -259,7 +245,6 @@ function renderShell(zones){
       </div>
       <div class="syncbar" id="syncLine"></div>
       ${!notifEnabled()?`<button class="notif-btn" onclick="enableNotifications()">🔔 Activar notificaciones</button>`:`<div class="notif-on">🔔 Notificaciones activadas</div>`}
-      ${zoneBar(zones)}
       <div id="content"></div>
       <footer>Hora de Ciudad de México · Se actualiza al refrescar la página</footer>
     </div></div>`;
@@ -270,11 +255,6 @@ function renderDayView(idx){
   const d=state.selectedDay;
   const today=todayCDMX();
   const dayData=idx.byDate[d]||{in:[],out:[]};
-  const allIn=filterByZone(dayData.in);
-  const allOut=filterByZone(dayData.out);
-  const totalIn=(idx.byDate[d]||{in:[]}).in.length;
-  const totalOut=(idx.byDate[d]||{out:[]}).out.length;
-
   return `
     <div class="daynav">
       <button class="nav-arrow" onclick="shiftDay(-1)">‹</button>
@@ -286,19 +266,12 @@ function renderDayView(idx){
       ${d!==today?`<button class="today-pill" onclick="goToday()">Hoy</button>`:''}
     </div>
     <div class="metrics">
-      <div class="metric in"><div class="num">${totalIn}</div><div class="lbl">LLEGADAS</div></div>
-      <div class="metric out"><div class="num">${totalOut}</div><div class="lbl">SALIDAS</div></div>
-      <div class="metric clean"><div class="num">${(idx.byDate[d]||{out:[]}).out.filter(o=>!done[o.id]).length}</div><div class="lbl">LIMPIEZAS</div></div>
+      <div class="metric in"><div class="num">${dayData.in.length}</div><div class="lbl">LLEGADAS</div></div>
+      <div class="metric out"><div class="num">${dayData.out.length}</div><div class="lbl">SALIDAS</div></div>
+      <div class="metric clean"><div class="num">${dayData.out.filter(o=>!done[o.id]).length}</div><div class="lbl">LIMPIEZAS</div></div>
       <div class="metric err"><div class="num">${idx.errors.length}</div><div class="lbl">ERRORES</div></div>
     </div>
-    <div class="section">
-      <div class="section-head"><div class="section-title">🛎️ Llegadas</div><div class="section-count">${allIn.length} ${allIn.length===1?'tarea':'tareas'}</div></div>
-      ${allIn.length===0?'<div class="empty-state">No hay llegadas programadas este día 🌴</div>':allIn.map(i=>cardHTML(i,'in',done)).join('')}
-    </div>
-    <div class="section">
-      <div class="section-head"><div class="section-title">🧹 Salidas y limpiezas</div><div class="section-count">${allOut.length} ${allOut.length===1?'tarea':'tareas'}</div></div>
-      ${allOut.length===0?'<div class="empty-state">No hay salidas programadas este día 🌴</div>':allOut.map(i=>cardHTML(i,'out',done)).join('')}
-    </div>
+    ${renderZoneGroups(dayData.in,dayData.out,done)}
     ${idx.errors.length>0?`<div class="err-list">⚠️ No se pudieron sincronizar: ${idx.errors.join(', ')}</div>`:''}`;
 }
 
@@ -308,19 +281,14 @@ function renderWeekView(idx){
   const today=todayCDMX();
   const isCurrentWeek=days.includes(today);
   let totalIn=0,totalOut=0,totalClean=0;
-  days.forEach(d=>{
-    const dd=idx.byDate[d]||{in:[],out:[]};
-    const fin=filterByZone(dd.in); const fout=filterByZone(dd.out);
-    totalIn+=fin.length; totalOut+=fout.length; totalClean+=fout.filter(o=>!done[o.id]).length;
-  });
+  days.forEach(d=>{ const dd=idx.byDate[d]||{in:[],out:[]}; totalIn+=dd.in.length; totalOut+=dd.out.length; totalClean+=dd.out.filter(o=>!done[o.id]).length; });
   const dayBlocks=days.map(d=>{
     const dd=idx.byDate[d]||{in:[],out:[]};
-    const fin=filterByZone(dd.in); const fout=filterByZone(dd.out);
-    const total=fin.length+fout.length;
+    const total=dd.in.length+dd.out.length;
     if(total===0) return `<div class="week-day-block"><div class="week-day-head">${dateLabel(d)} <span class="wd-count">0 tareas</span></div><div class="week-empty">Sin movimientos.</div></div>`;
     return `<div class="week-day-block">
       <div class="week-day-head">${dateLabel(d)} <span class="wd-count">${total} ${total===1?'tarea':'tareas'}</span></div>
-      ${[...fin.map(i=>cardHTML(i,'in',done)),...fout.map(i=>cardHTML(i,'out',done))].join('')}
+      ${renderZoneGroups(dd.in,dd.out,done)}
     </div>`;
   }).join('');
   return `
@@ -345,8 +313,7 @@ function renderWeekView(idx){
 function renderCurrentView(){
   if(!window.__lastData) return;
   const idx=buildIndex(window.__lastData);
-  const zones=getZones(window.__lastData);
-  renderShell(zones);
+  renderShell();
   const now=new Date();
   document.getElementById('nowLabel').textContent=now.toLocaleDateString('es-MX',{timeZone:TZ,weekday:'short',day:'numeric',month:'short'});
   const syncTime=new Date(window.__lastData.syncedAt).toLocaleTimeString('es-MX',{timeZone:TZ,hour:'2-digit',minute:'2-digit'});
@@ -369,7 +336,6 @@ function urlBase64ToUint8Array(b){
   const base64=(b+padding).replace(/-/g,'+').replace(/_/g,'/');
   return Uint8Array.from([...window.atob(base64)].map(c=>c.charCodeAt(0)));
 }
-
 window.enableNotifications=async function(){
   if(!('serviceWorker' in navigator)||!('PushManager' in window)){ alert('Tu navegador no soporta notificaciones push.'); return; }
   try{
@@ -382,7 +348,6 @@ window.enableNotifications=async function(){
     renderCurrentView();
   }catch(e){ alert('No se pudo activar: '+e.message); }
 };
-
 function notifEnabled(){ return localStorage.getItem('notif_enabled')==='1'; }
 
 async function bootApp(){
@@ -394,9 +359,10 @@ async function bootApp(){
     render(data);
   }catch(e){ renderError(e.message); }
 }
-
 bootApp();
 </script>
 </body>
 </html>
 ```
+
+Reemplaza todo el `index.html` en GitHub con esto y haz commit. Las tarjetas quedarán agrupadas con encabezados negros por zona, con ícono y contador de tareas por zona.
