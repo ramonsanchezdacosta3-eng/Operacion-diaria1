@@ -37,9 +37,9 @@ async function fetchOne(prop) {
       startDate: fmtDate(ev.start),
       endDate: fmtDate(ev.end)
     }));
-    return { name: prop.name, owner: prop.owner, ok: true, events };
+ return { name: prop.name, owner: prop.owner, zone: prop.zone || '', ok: true, events };
   } catch (e) {
-    return { name: prop.name, owner: prop.owner, ok: false, error: e.message, events: [] };
+   return { name: prop.name, owner: prop.owner, zone: prop.zone || '', ok: false, error: e.message, events: [] };
   }
 }
 
