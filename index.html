@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -20,33 +21,20 @@
     --teal:#00A699;
     --teal-light:#E0F7F5;
     --gold:#FFB400;
-    --gold-light:#FFF6E0;
     --white:#FFFFFF;
     --shadow-card: 0 1px 2px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.06);
     --shadow-hover: 0 2px 4px rgba(0,0,0,0.1), 0 8px 20px rgba(0,0,0,0.10);
   }
 
   *{box-sizing:border-box; margin:0; padding:0;}
-  body{
-    background:var(--gray-100);
-    color:var(--ink);
-    font-family:'Nunito', sans-serif;
-    -webkit-font-smoothing:antialiased;
-    min-height:100vh;
-  }
+  body{background:var(--gray-100); color:var(--ink); font-family:'Nunito',sans-serif; -webkit-font-smoothing:antialiased; min-height:100vh;}
 
   .wrap{max-width:780px; margin:0 auto; padding:0 0 80px;}
 
-  .topbar{
-    background:var(--white); border-bottom:1px solid var(--gray-300);
-    padding:16px 20px; position:sticky; top:0; z-index:10;
-  }
+  .topbar{background:var(--white); border-bottom:1px solid var(--gray-300); padding:16px 20px; position:sticky; top:0; z-index:10;}
   .topbar-inner{max-width:780px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:12px;}
   .logo-row{display:flex; align-items:center; gap:10px;}
-  .logo-mark{
-    width:34px; height:34px; border-radius:10px; background:var(--rausch);
-    display:flex; align-items:center; justify-content:center; flex-shrink:0;
-  }
+  .logo-mark{width:34px; height:34px; border-radius:10px; background:var(--rausch); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
   .logo-mark svg{width:19px; height:19px;}
   .logo-text{font-weight:800; font-size:18px; letter-spacing:-0.02em; color:var(--gray-900);}
   .now-pill{font-size:12.5px; color:var(--gray-500); font-weight:600; text-transform:capitalize;}
@@ -54,57 +42,34 @@
   .content-pad{padding:18px 20px 0;}
 
   .tabs{display:flex; gap:8px; margin-bottom:18px;}
-  .tab-btn{
-    font-family:'Nunito',sans-serif; font-size:14px; font-weight:700;
-    background:var(--white); color:var(--gray-700); border:1px solid var(--gray-300); border-radius:24px;
-    padding:10px 20px; cursor:pointer; transition:all .15s;
-  }
+  .tab-btn{font-family:'Nunito',sans-serif; font-size:14px; font-weight:700; background:var(--white); color:var(--gray-700); border:1px solid var(--gray-300); border-radius:24px; padding:10px 20px; cursor:pointer; transition:all .15s;}
   .tab-btn.active{background:var(--gray-900); color:var(--white); border-color:var(--gray-900);}
   .tab-btn:hover:not(.active){border-color:var(--gray-500);}
 
-  .daynav{
-    display:flex; align-items:center; justify-content:space-between;
-    background:var(--white); border:1px solid var(--gray-300); border-radius:16px;
-    padding:12px 14px; margin-bottom:16px; gap:10px; box-shadow:var(--shadow-card);
-  }
+  .zone-bar{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px;}
+  .zone-pill{font-family:'Nunito',sans-serif; font-size:12.5px; font-weight:700; background:var(--white); color:var(--gray-700); border:1px solid var(--gray-300); border-radius:20px; padding:6px 14px; cursor:pointer; transition:all .15s; white-space:nowrap;}
+  .zone-pill.active{background:var(--rausch); color:var(--white); border-color:var(--rausch);}
+  .zone-pill:hover:not(.active){border-color:var(--gray-500);}
+
+  .daynav{display:flex; align-items:center; justify-content:space-between; background:var(--white); border:1px solid var(--gray-300); border-radius:16px; padding:12px 14px; margin-bottom:16px; gap:10px; box-shadow:var(--shadow-card);}
   .daynav-mid{flex:1; text-align:center;}
   .daynav-date{font-weight:800; font-size:17px; text-transform:capitalize; color:var(--gray-900);}
   .daynav-sub{font-size:12px; color:var(--rausch); font-weight:700; margin-top:2px;}
-  .nav-arrow{
-    width:36px; height:36px; border-radius:50%; border:1px solid var(--gray-300); background:var(--white);
-    cursor:pointer; font-size:16px; color:var(--gray-900); display:flex; align-items:center; justify-content:center;
-    flex-shrink:0; transition:all .15s; font-weight:700;
-  }
+  .nav-arrow{width:36px; height:36px; border-radius:50%; border:1px solid var(--gray-300); background:var(--white); cursor:pointer; font-size:16px; color:var(--gray-900); display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all .15s; font-weight:700;}
   .nav-arrow:hover{background:var(--gray-100); border-color:var(--gray-500);}
-  .today-pill{
-    font-size:12px; color:var(--rausch); cursor:pointer; font-weight:700; flex-shrink:0;
-    background:var(--rausch-light); border:none; padding:8px 14px; border-radius:20px;
-  }
+  .today-pill{font-size:12px; color:var(--rausch); cursor:pointer; font-weight:700; flex-shrink:0; background:var(--rausch-light); border:none; padding:8px 14px; border-radius:20px;}
 
-  .syncbar{
-    display:flex; align-items:center; justify-content:space-between;
-    font-size:12.5px; color:var(--gray-500); margin-bottom:18px; gap:10px; flex-wrap:wrap; font-weight:600;
-  }
+  .syncbar{display:flex; align-items:center; justify-content:space-between; font-size:12.5px; color:var(--gray-500); margin-bottom:16px; gap:10px; flex-wrap:wrap; font-weight:600;}
   .sync-status{display:flex; align-items:center; gap:7px;}
   .dot-pulse{width:8px; height:8px; border-radius:50%; background:var(--teal); flex-shrink:0;}
   .dot-pulse.error{background:var(--rausch);}
-  .btn{
-    font-family:'Nunito',sans-serif; font-size:13px; font-weight:700;
-    background:var(--rausch); color:var(--white); border:none; border-radius:20px;
-    padding:8px 16px; cursor:pointer; transition:background .15s;
-  }
+
+  .btn{font-family:'Nunito',sans-serif; font-size:13px; font-weight:700; background:var(--rausch); color:var(--white); border:none; border-radius:20px; padding:8px 16px; cursor:pointer; transition:background .15s;}
   .btn:hover{background:var(--rausch-dark);}
 
-  .notif-btn{
-    width:100%; font-family:'Nunito',sans-serif; font-size:14px; font-weight:700;
-    background:var(--white); color:var(--rausch); border:1.5px dashed var(--rausch); border-radius:14px;
-    padding:12px 16px; cursor:pointer; margin-bottom:18px; transition:background .15s;
-  }
+  .notif-btn{width:100%; font-family:'Nunito',sans-serif; font-size:14px; font-weight:700; background:var(--white); color:var(--rausch); border:1.5px dashed var(--rausch); border-radius:14px; padding:12px 16px; cursor:pointer; margin-bottom:18px; transition:background .15s;}
   .notif-btn:hover{background:var(--rausch-light);}
-  .notif-on{
-    width:100%; text-align:center; font-size:13px; font-weight:700; color:var(--teal);
-    background:var(--teal-light); border-radius:14px; padding:10px 16px; margin-bottom:18px;
-  }
+  .notif-on{width:100%; text-align:center; font-size:13px; font-weight:700; color:var(--teal); background:var(--teal-light); border-radius:14px; padding:10px 16px; margin-bottom:18px;}
 
   .metrics{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:24px;}
   .metric{background:var(--white); border:1px solid var(--gray-300); border-radius:16px; padding:16px 14px 14px; box-shadow:var(--shadow-card);}
@@ -120,59 +85,37 @@
   .section-title{font-size:18px; font-weight:800; color:var(--gray-900); display:flex; align-items:center; gap:8px;}
   .section-count{font-size:12.5px; color:var(--gray-500); font-weight:700;}
 
-  .card{
-    background:var(--white); border:1px solid var(--gray-300); border-radius:16px;
-    padding:14px 16px; display:flex; align-items:center; gap:14px; margin-bottom:10px;
-    transition:box-shadow .15s, border-color .15s; box-shadow:var(--shadow-card);
-  }
+  .card{background:var(--white); border:1px solid var(--gray-300); border-radius:16px; padding:14px 16px; display:flex; align-items:center; gap:14px; margin-bottom:10px; transition:box-shadow .15s, border-color .15s; box-shadow:var(--shadow-card);}
   .card:hover{box-shadow:var(--shadow-hover);}
   .card.done{opacity:0.5;}
   .card.done .card-name{text-decoration:line-through;}
 
-  .tag{
-    width:42px; height:42px; border-radius:50%; flex-shrink:0;
-    display:flex; align-items:center; justify-content:center;
-  }
+  .tag{width:42px; height:42px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center;}
   .tag.in{background:var(--teal-light); color:var(--teal);}
   .tag.out{background:var(--rausch-light); color:var(--rausch);}
   .tag svg{width:20px; height:20px;}
 
   .card-info{flex:1; min-width:0;}
   .card-name{font-size:15px; font-weight:800; color:var(--gray-900);}
-  .card-sub{font-size:12.5px; color:var(--gray-500); margin-top:2px; font-weight:600;}
-  .card-date{font-size:11.5px; color:var(--gray-500); flex-shrink:0; text-align:right; font-weight:700;}
+  .card-meta{display:flex; align-items:center; gap:8px; margin-top:3px; flex-wrap:wrap;}
+  .card-sub{font-size:12.5px; color:var(--gray-500); font-weight:600;}
+  .zone-badge{font-size:11px; font-weight:700; background:var(--gray-100); color:var(--gray-700); border-radius:10px; padding:2px 8px; white-space:nowrap;}
 
-  .check{
-    width:30px; height:30px; border-radius:50%; border:2px solid var(--gray-300);
-    background:transparent; cursor:pointer; flex-shrink:0;
-    display:flex; align-items:center; justify-content:center;
-    color:transparent; font-size:14px; transition:all .15s; font-weight:900;
-  }
+  .check{width:30px; height:30px; border-radius:50%; border:2px solid var(--gray-300); background:transparent; cursor:pointer; flex-shrink:0; display:flex; align-items:center; justify-content:center; color:transparent; font-size:14px; transition:all .15s; font-weight:900;}
   .check:hover{border-color:var(--teal);}
   .check.checked{background:var(--teal); border-color:var(--teal); color:var(--white);}
 
-  .empty-state{
-    text-align:center; padding:40px 20px; color:var(--gray-500); font-size:14px; font-weight:600;
-    border:1.5px dashed var(--gray-300); border-radius:16px; background:var(--white);
-  }
-
+  .empty-state{text-align:center; padding:40px 20px; color:var(--gray-500); font-size:14px; font-weight:600; border:1.5px dashed var(--gray-300); border-radius:16px; background:var(--white);}
   .err-list{font-size:12.5px; color:var(--rausch); margin-top:10px; line-height:1.6; font-weight:600;}
-
   footer{text-align:center; font-size:12px; color:var(--gray-500); margin-top:36px; padding-bottom:20px; font-weight:600;}
 
   .week-day-block{margin-bottom:20px;}
-  .week-day-head{
-    font-weight:800; font-size:15px; color:var(--gray-900);
-    display:flex; align-items:baseline; justify-content:space-between;
-    margin-bottom:10px; padding-bottom:8px; border-bottom:2px solid var(--gray-300);
-    text-transform:capitalize;
-  }
+  .week-day-head{font-weight:800; font-size:15px; color:var(--gray-900); display:flex; align-items:baseline; justify-content:space-between; margin-bottom:10px; padding-bottom:8px; border-bottom:2px solid var(--gray-300); text-transform:capitalize;}
   .week-day-head .wd-count{font-size:12px; color:var(--gray-500); font-weight:700;}
   .week-empty{font-size:13px; color:var(--gray-500); padding:6px 0 2px; font-weight:600;}
-
   .week-summary{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:24px;}
 
-  @media (max-width:480px){
+  @media(max-width:480px){
     .metrics{grid-template-columns:repeat(2,1fr);}
     .week-summary{grid-template-columns:repeat(3,1fr);}
     .logo-text{font-size:16px;}
@@ -184,373 +127,276 @@
   <div class="topbar">
     <div class="topbar-inner">
       <div class="logo-row">
-        <div class="logo-mark">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C12 2 5 11 5 16C5 19.866 8.13401 23 12 23C15.866 23 19 19.866 19 16C19 11 12 2 12 2Z" fill="white"/></svg>
-        </div>
+        <div class="logo-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2C12 2 5 11 5 16C5 19.866 8.134 23 12 23C15.866 23 19 19.866 19 16C19 11 12 2 12 2Z" fill="white"/></svg></div>
         <div class="logo-text">Operación Diaria</div>
       </div>
     </div>
   </div>
-  <div class="wrap">
-    <div class="content-pad">
-      <div class="empty-state">Cargando tu operación...</div>
-    </div>
-  </div>
+  <div class="wrap"><div class="content-pad"><div class="empty-state">Cargando tu operación...</div></div></div>
 </div>
 
 <script>
 const DONE_KEY = 'airbnb_ops_done_v1';
 const TZ = 'America/Mexico_City';
 
-const ICON_IN = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 17L6 12L11 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 12H18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 4H19C19.5523 4 20 4.44772 20 5V19C20 19.5523 19.5523 20 19 20H15" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-const ICON_OUT = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 7L18 12L13 17" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 12H6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 4H5C4.44772 4 4 4.44772 4 5V19C4 19.5523 4.44772 20 5 20H9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const ICON_IN = '<svg viewBox="0 0 24 24" fill="none"><path d="M11 17L6 12L11 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 12H18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 4H19C19.55 4 20 4.45 20 5V19C20 19.55 19.55 20 19 20H15" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const ICON_OUT = '<svg viewBox="0 0 24 24" fill="none"><path d="M13 7L18 12L13 17" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 12H6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 4H5C4.45 4 4 4.45 4 5V19C4 19.55 4.45 20 5 20H9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
-function loadDone(){
-  // Server state is source of truth; cached locally for instant render
-  try{ return JSON.parse(localStorage.getItem(DONE_KEY) || '{}'); }catch(e){ return {}; }
-}
+const VAPID_PUBLIC_KEY = 'BCEeoQdwMjMQyF0gYsoUfQLItcMXlsAnF6MO0mpW8CYEbVfzunJ7cKRFWNbf6KFQiixH5GjM30X2es2tQ7djXX0';
+
+function loadDone(){ try{ return JSON.parse(localStorage.getItem(DONE_KEY)||'{}'); }catch(e){ return {}; } }
 function saveDone(d){ localStorage.setItem(DONE_KEY, JSON.stringify(d)); }
 
 async function syncDoneToServer(id, value){
-  try{
-    await fetch('/api/done', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, value })
-    });
-  }catch(e){ /* offline-safe: local copy already saved */ }
+  try{ await fetch('/api/done',{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({id,value}) }); }catch(e){}
 }
-
 async function pullDoneFromServer(){
-  try{
-    const res = await fetch('/api/done');
-    const serverDone = await res.json();
-    saveDone(serverDone);
-    return serverDone;
-  }catch(e){
-    return loadDone();
-  }
+  try{ const r=await fetch('/api/done'); const d=await r.json(); saveDone(d); return d; }catch(e){ return loadDone(); }
 }
 
 function todayCDMX(){
-  const parts = new Intl.DateTimeFormat('en-CA', {
-    timeZone: TZ, year:'numeric', month:'2-digit', day:'2-digit'
-  }).formatToParts(new Date());
-  const map = {};
-  parts.forEach(p => map[p.type] = p.value);
-  return `${map.year}-${map.month}-${map.day}`;
+  const parts=new Intl.DateTimeFormat('en-CA',{timeZone:TZ,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+  const m={}; parts.forEach(p=>m[p.type]=p.value);
+  return `${m.year}-${m.month}-${m.day}`;
 }
-
-function addDays(dateStr, n){
-  const [y,m,d] = dateStr.split('-').map(Number);
-  const dt = new Date(Date.UTC(y, m-1, d));
-  dt.setUTCDate(dt.getUTCDate() + n);
+function addDays(dateStr,n){
+  const [y,mo,d]=dateStr.split('-').map(Number);
+  const dt=new Date(Date.UTC(y,mo-1,d)); dt.setUTCDate(dt.getUTCDate()+n);
   return dt.toISOString().slice(0,10);
 }
-
 function dateLabel(dateStr){
-  const [y,m,d] = dateStr.split('-').map(Number);
-  const dt = new Date(Date.UTC(y, m-1, d, 12));
-  return dt.toLocaleDateString('es-MX', { timeZone:'UTC', weekday:'long', day:'numeric', month:'long' });
+  const [y,mo,d]=dateStr.split('-').map(Number);
+  return new Date(Date.UTC(y,mo-1,d,12)).toLocaleDateString('es-MX',{timeZone:'UTC',weekday:'long',day:'numeric',month:'long'});
 }
 function shortLabel(dateStr){
-  const [y,m,d] = dateStr.split('-').map(Number);
-  const dt = new Date(Date.UTC(y, m-1, d, 12));
-  return dt.toLocaleDateString('es-MX', { timeZone:'UTC', weekday:'short', day:'numeric', month:'short' });
+  const [y,mo,d]=dateStr.split('-').map(Number);
+  return new Date(Date.UTC(y,mo-1,d,12)).toLocaleDateString('es-MX',{timeZone:'UTC',weekday:'short',day:'numeric',month:'short'});
 }
-
 function weekDates(dateStr){
-  const [y,m,d] = dateStr.split('-').map(Number);
-  const dt = new Date(Date.UTC(y, m-1, d));
-  const dow = dt.getUTCDay();
-  const offsetToMonday = dow === 0 ? -6 : 1 - dow;
-  const monday = addDays(dateStr, offsetToMonday);
-  const days = [];
-  for(let i=0;i<7;i++) days.push(addDays(monday, i));
+  const [y,mo,d]=dateStr.split('-').map(Number);
+  const dt=new Date(Date.UTC(y,mo-1,d));
+  const dow=dt.getUTCDay();
+  const monday=addDays(dateStr,dow===0?-6:1-dow);
+  const days=[]; for(let i=0;i<7;i++) days.push(addDays(monday,i));
   return days;
 }
 
-let state = {
-  view: 'day',
-  selectedDay: todayCDMX(),
-  selectedWeekAnchor: todayCDMX()
-};
+let state={ view:'day', selectedDay:todayCDMX(), selectedWeekAnchor:todayCDMX(), activeZone:'all' };
 
 function cardHTML(item, type, done){
-  const isDone = !!done[item.id];
-  const icon = type === 'in' ? ICON_IN : ICON_OUT;
-  const subLabel = type === 'in' ? 'Atención al cliente' : 'Programar limpieza';
+  const isDone=!!done[item.id];
+  const icon=type==='in'?ICON_IN:ICON_OUT;
+  const subLabel=type==='in'?'Atención al cliente':'Programar limpieza';
   return `
     <div class="card ${isDone?'done':''}" id="card-${item.id}">
       <div class="tag ${type}">${icon}</div>
       <div class="card-info">
-        <div class="card-name">${item.prop}${item.owner ? ' · ' + item.owner : ''}</div>
-        <div class="card-sub">${subLabel}</div>
+        <div class="card-name">${item.prop}${item.owner?' · '+item.owner:''}</div>
+        <div class="card-meta">
+          <span class="card-sub">${subLabel}</span>
+          ${item.zone?`<span class="zone-badge">${item.zone}</span>`:''}
+        </div>
       </div>
       <button class="check ${isDone?'checked':''}" onclick="toggleDone('${item.id}')">✓</button>
-    </div>
-  `;
+    </div>`;
 }
 
-window.toggleDone = function(id){
-  const done = loadDone();
-  done[id] = !done[id];
-  saveDone(done);
-  syncDoneToServer(id, done[id]);
-  renderCurrentView();
+window.toggleDone=function(id){
+  const done=loadDone(); done[id]=!done[id]; saveDone(done); syncDoneToServer(id,done[id]); renderCurrentView();
 };
-
-window.setView = function(v){
-  state.view = v;
-  renderCurrentView();
-};
-
-window.shiftDay = function(n){
-  state.selectedDay = addDays(state.selectedDay, n);
-  renderCurrentView();
-};
-window.goToday = function(){
-  state.selectedDay = todayCDMX();
-  renderCurrentView();
-};
-window.shiftWeek = function(n){
-  state.selectedWeekAnchor = addDays(state.selectedWeekAnchor, n*7);
-  renderCurrentView();
-};
-window.goThisWeek = function(){
-  state.selectedWeekAnchor = todayCDMX();
-  renderCurrentView();
-};
+window.setView=function(v){ state.view=v; renderCurrentView(); };
+window.shiftDay=function(n){ state.selectedDay=addDays(state.selectedDay,n); renderCurrentView(); };
+window.goToday=function(){ state.selectedDay=todayCDMX(); renderCurrentView(); };
+window.shiftWeek=function(n){ state.selectedWeekAnchor=addDays(state.selectedWeekAnchor,n*7); renderCurrentView(); };
+window.goThisWeek=function(){ state.selectedWeekAnchor=todayCDMX(); renderCurrentView(); };
+window.setZone=function(z){ state.activeZone=z; renderCurrentView(); };
 
 function buildIndex(data){
-  const byDate = {};
-  const errors = [];
-  function ensure(d){ if(!byDate[d]) byDate[d] = { in:[], out:[] }; return byDate[d]; }
-  data.properties.forEach(p => {
+  const byDate={}; const errors=[];
+  function ensure(d){ if(!byDate[d]) byDate[d]={in:[],out:[]}; return byDate[d]; }
+  data.properties.forEach(p=>{
     if(!p.ok){ errors.push(p.name); return; }
-    p.events.forEach(ev => {
-      ensure(ev.startDate).in.push({ prop:p.name, owner:p.owner, date:ev.startDate, id:p.name+'-in-'+ev.start });
-      ensure(ev.endDate).out.push({ prop:p.name, owner:p.owner, date:ev.endDate, id:p.name+'-out-'+ev.end });
+    p.events.forEach(ev=>{
+      ensure(ev.startDate).in.push({prop:p.name,owner:p.owner,zone:p.zone||'',date:ev.startDate,id:p.name+'-in-'+ev.start});
+      ensure(ev.endDate).out.push({prop:p.name,owner:p.owner,zone:p.zone||'',date:ev.endDate,id:p.name+'-out-'+ev.end});
     });
   });
-  return { byDate, errors };
+  return {byDate,errors};
 }
 
-function renderShell(){
-  document.getElementById('app').innerHTML = `
+function getZones(data){
+  const zones=new Set();
+  data.properties.forEach(p=>{ if(p.zone) zones.add(p.zone); });
+  return ['all',...Array.from(zones).sort()];
+}
+
+function zoneBar(zones){
+  return `<div class="zone-bar">
+    ${zones.map(z=>`<button class="zone-pill ${state.activeZone===z?'active':''}" onclick="setZone('${z}')">${z==='all'?'Todas las zonas':z}</button>`).join('')}
+  </div>`;
+}
+
+function filterByZone(items){
+  if(state.activeZone==='all') return items;
+  return items.filter(i=>i.zone===state.activeZone);
+}
+
+function renderShell(zones){
+  document.getElementById('app').innerHTML=`
     <div class="topbar">
       <div class="topbar-inner">
         <div class="logo-row">
-          <div class="logo-mark">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C12 2 5 11 5 16C5 19.866 8.13401 23 12 23C15.866 23 19 19.866 19 16C19 11 12 2 12 2Z" fill="white"/></svg>
-          </div>
+          <div class="logo-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2C12 2 5 11 5 16C5 19.866 8.134 23 12 23C15.866 23 19 19.866 19 16C19 11 12 2 12 2Z" fill="white"/></svg></div>
           <div class="logo-text">Operación Diaria</div>
         </div>
         <div class="now-pill" id="nowLabel"></div>
       </div>
     </div>
-    <div class="wrap">
-      <div class="content-pad">
-        <div class="tabs">
-          <button class="tab-btn ${state.view==='day'?'active':''}" onclick="setView('day')">📋 Día</button>
-          <button class="tab-btn ${state.view==='week'?'active':''}" onclick="setView('week')">📊 Informe semanal</button>
-        </div>
-        <div class="syncbar" id="syncLine"></div>
-        ${!notifEnabled() ? `<button class="notif-btn" onclick="enableNotifications()">🔔 Activar notificaciones</button>` : `<div class="notif-on">🔔 Notificaciones activadas</div>`}
-        <div id="content"></div>
-        <footer>Hora de Ciudad de México · Se actualiza al refrescar la página</footer>
+    <div class="wrap"><div class="content-pad">
+      <div class="tabs">
+        <button class="tab-btn ${state.view==='day'?'active':''}" onclick="setView('day')">📋 Día</button>
+        <button class="tab-btn ${state.view==='week'?'active':''}" onclick="setView('week')">📊 Informe semanal</button>
       </div>
-    </div>
-  `;
+      <div class="syncbar" id="syncLine"></div>
+      ${!notifEnabled()?`<button class="notif-btn" onclick="enableNotifications()">🔔 Activar notificaciones</button>`:`<div class="notif-on">🔔 Notificaciones activadas</div>`}
+      ${zoneBar(zones)}
+      <div id="content"></div>
+      <footer>Hora de Ciudad de México · Se actualiza al refrescar la página</footer>
+    </div></div>`;
 }
 
 function renderDayView(idx){
-  const done = loadDone();
-  const d = state.selectedDay;
-  const today = todayCDMX();
-  const dayData = idx.byDate[d] || { in:[], out:[] };
-  const allIn = dayData.in;
-  const allOut = dayData.out;
+  const done=loadDone();
+  const d=state.selectedDay;
+  const today=todayCDMX();
+  const dayData=idx.byDate[d]||{in:[],out:[]};
+  const allIn=filterByZone(dayData.in);
+  const allOut=filterByZone(dayData.out);
+  const totalIn=(idx.byDate[d]||{in:[]}).in.length;
+  const totalOut=(idx.byDate[d]||{out:[]}).out.length;
 
   return `
     <div class="daynav">
       <button class="nav-arrow" onclick="shiftDay(-1)">‹</button>
       <div class="daynav-mid">
         <div class="daynav-date">${dateLabel(d)}</div>
-        ${d === today ? '<div class="daynav-sub">HOY</div>' : ''}
+        ${d===today?'<div class="daynav-sub">HOY</div>':''}
       </div>
       <button class="nav-arrow" onclick="shiftDay(1)">›</button>
-      ${d !== today ? `<button class="today-pill" onclick="goToday()">Hoy</button>` : ''}
+      ${d!==today?`<button class="today-pill" onclick="goToday()">Hoy</button>`:''}
     </div>
-
     <div class="metrics">
-      <div class="metric in"><div class="num">${allIn.length}</div><div class="lbl">LLEGADAS</div></div>
-      <div class="metric out"><div class="num">${allOut.length}</div><div class="lbl">SALIDAS</div></div>
-      <div class="metric clean"><div class="num">${allOut.filter(o=>!done[o.id]).length}</div><div class="lbl">LIMPIEZAS</div></div>
+      <div class="metric in"><div class="num">${totalIn}</div><div class="lbl">LLEGADAS</div></div>
+      <div class="metric out"><div class="num">${totalOut}</div><div class="lbl">SALIDAS</div></div>
+      <div class="metric clean"><div class="num">${(idx.byDate[d]||{out:[]}).out.filter(o=>!done[o.id]).length}</div><div class="lbl">LIMPIEZAS</div></div>
       <div class="metric err"><div class="num">${idx.errors.length}</div><div class="lbl">ERRORES</div></div>
     </div>
-
     <div class="section">
       <div class="section-head"><div class="section-title">🛎️ Llegadas</div><div class="section-count">${allIn.length} ${allIn.length===1?'tarea':'tareas'}</div></div>
-      ${allIn.length === 0 ? '<div class="empty-state">No hay llegadas programadas este día 🌴</div>' : allIn.map(i=>cardHTML(i,'in',done)).join('')}
+      ${allIn.length===0?'<div class="empty-state">No hay llegadas programadas este día 🌴</div>':allIn.map(i=>cardHTML(i,'in',done)).join('')}
     </div>
-
     <div class="section">
       <div class="section-head"><div class="section-title">🧹 Salidas y limpiezas</div><div class="section-count">${allOut.length} ${allOut.length===1?'tarea':'tareas'}</div></div>
-      ${allOut.length === 0 ? '<div class="empty-state">No hay salidas programadas este día 🌴</div>' : allOut.map(i=>cardHTML(i,'out',done)).join('')}
+      ${allOut.length===0?'<div class="empty-state">No hay salidas programadas este día 🌴</div>':allOut.map(i=>cardHTML(i,'out',done)).join('')}
     </div>
-
-    ${idx.errors.length > 0 ? `<div class="err-list">⚠️ No se pudieron sincronizar: ${idx.errors.join(', ')}</div>` : ''}
-  `;
+    ${idx.errors.length>0?`<div class="err-list">⚠️ No se pudieron sincronizar: ${idx.errors.join(', ')}</div>`:''}`;
 }
 
 function renderWeekView(idx){
-  const done = loadDone();
-  const days = weekDates(state.selectedWeekAnchor);
-  const today = todayCDMX();
-  const isCurrentWeek = days.includes(today);
-
-  let totalIn = 0, totalOut = 0, totalCleanPending = 0;
-  days.forEach(d => {
-    const dd = idx.byDate[d] || { in:[], out:[] };
-    totalIn += dd.in.length;
-    totalOut += dd.out.length;
-    totalCleanPending += dd.out.filter(o=>!done[o.id]).length;
+  const done=loadDone();
+  const days=weekDates(state.selectedWeekAnchor);
+  const today=todayCDMX();
+  const isCurrentWeek=days.includes(today);
+  let totalIn=0,totalOut=0,totalClean=0;
+  days.forEach(d=>{
+    const dd=idx.byDate[d]||{in:[],out:[]};
+    const fin=filterByZone(dd.in); const fout=filterByZone(dd.out);
+    totalIn+=fin.length; totalOut+=fout.length; totalClean+=fout.filter(o=>!done[o.id]).length;
   });
-
-  const rangeLabel = `${shortLabel(days[0])} – ${shortLabel(days[6])}`;
-
-  const dayBlocks = days.map(d => {
-    const dd = idx.byDate[d] || { in:[], out:[] };
-    const total = dd.in.length + dd.out.length;
-    if(total === 0){
-      return `
-        <div class="week-day-block">
-          <div class="week-day-head">${dateLabel(d)} <span class="wd-count">0 tareas</span></div>
-          <div class="week-empty">Sin movimientos.</div>
-        </div>
-      `;
-    }
-    const items = [
-      ...dd.in.map(i => cardHTML(i,'in',done)),
-      ...dd.out.map(i => cardHTML(i,'out',done))
-    ].join('');
-    return `
-      <div class="week-day-block">
-        <div class="week-day-head">${dateLabel(d)} <span class="wd-count">${total} ${total===1?'tarea':'tareas'}</span></div>
-        ${items}
-      </div>
-    `;
+  const dayBlocks=days.map(d=>{
+    const dd=idx.byDate[d]||{in:[],out:[]};
+    const fin=filterByZone(dd.in); const fout=filterByZone(dd.out);
+    const total=fin.length+fout.length;
+    if(total===0) return `<div class="week-day-block"><div class="week-day-head">${dateLabel(d)} <span class="wd-count">0 tareas</span></div><div class="week-empty">Sin movimientos.</div></div>`;
+    return `<div class="week-day-block">
+      <div class="week-day-head">${dateLabel(d)} <span class="wd-count">${total} ${total===1?'tarea':'tareas'}</span></div>
+      ${[...fin.map(i=>cardHTML(i,'in',done)),...fout.map(i=>cardHTML(i,'out',done))].join('')}
+    </div>`;
   }).join('');
-
   return `
     <div class="daynav">
       <button class="nav-arrow" onclick="shiftWeek(-1)">‹</button>
       <div class="daynav-mid">
-        <div class="daynav-date">${rangeLabel}</div>
-        ${isCurrentWeek ? '<div class="daynav-sub">ESTA SEMANA</div>' : ''}
+        <div class="daynav-date">${shortLabel(days[0])} – ${shortLabel(days[6])}</div>
+        ${isCurrentWeek?'<div class="daynav-sub">ESTA SEMANA</div>':''}
       </div>
       <button class="nav-arrow" onclick="shiftWeek(1)">›</button>
-      ${!isCurrentWeek ? `<button class="today-pill" onclick="goThisWeek()">Esta semana</button>` : ''}
+      ${!isCurrentWeek?`<button class="today-pill" onclick="goThisWeek()">Esta semana</button>`:''}
     </div>
-
     <div class="week-summary">
       <div class="metric in"><div class="num">${totalIn}</div><div class="lbl">LLEGADAS</div></div>
       <div class="metric out"><div class="num">${totalOut}</div><div class="lbl">SALIDAS</div></div>
-      <div class="metric clean"><div class="num">${totalCleanPending}</div><div class="lbl">LIMPIEZAS</div></div>
+      <div class="metric clean"><div class="num">${totalClean}</div><div class="lbl">LIMPIEZAS</div></div>
     </div>
-
     ${dayBlocks}
-
-    ${idx.errors.length > 0 ? `<div class="err-list">⚠️ No se pudieron sincronizar: ${idx.errors.join(', ')}</div>` : ''}
-  `;
+    ${idx.errors.length>0?`<div class="err-list">⚠️ No se pudieron sincronizar: ${idx.errors.join(', ')}</div>`:''}`;
 }
 
 function renderCurrentView(){
   if(!window.__lastData) return;
-  renderShell();
-  const idx = buildIndex(window.__lastData);
-  const now = new Date();
-  const nowLabel = now.toLocaleDateString('es-MX', { timeZone:TZ, weekday:'short', day:'numeric', month:'short' });
-  document.getElementById('nowLabel').textContent = nowLabel;
-  const syncTime = new Date(window.__lastData.syncedAt).toLocaleTimeString('es-MX', { timeZone:TZ, hour:'2-digit', minute:'2-digit' });
-  document.getElementById('syncLine').innerHTML = `
-    <div class="sync-status"><span class="dot-pulse ${idx.errors.length>0?'error':''}"></span><span>${idx.errors.length>0 ? idx.errors.length + ' error(es) de sync' : 'Sincronizado a las '+syncTime}</span></div>
-    <span>${window.__lastData.properties.length} propiedades conectadas</span>
-  `;
-
-  document.getElementById('content').innerHTML = state.view === 'day' ? renderDayView(idx) : renderWeekView(idx);
+  const idx=buildIndex(window.__lastData);
+  const zones=getZones(window.__lastData);
+  renderShell(zones);
+  const now=new Date();
+  document.getElementById('nowLabel').textContent=now.toLocaleDateString('es-MX',{timeZone:TZ,weekday:'short',day:'numeric',month:'short'});
+  const syncTime=new Date(window.__lastData.syncedAt).toLocaleTimeString('es-MX',{timeZone:TZ,hour:'2-digit',minute:'2-digit'});
+  document.getElementById('syncLine').innerHTML=`
+    <div class="sync-status"><span class="dot-pulse ${idx.errors.length>0?'error':''}"></span><span>${idx.errors.length>0?idx.errors.length+' error(es) de sync':'Sincronizado a las '+syncTime}</span></div>
+    <span>${window.__lastData.properties.length} propiedades conectadas</span>`;
+  document.getElementById('content').innerHTML=state.view==='day'?renderDayView(idx):renderWeekView(idx);
 }
 
-function render(data){
-  window.__lastData = data;
-  renderCurrentView();
-}
+function render(data){ window.__lastData=data; renderCurrentView(); }
 
 function renderError(msg){
-  document.getElementById('app').innerHTML = `
-    <div class="topbar"><div class="topbar-inner"><div class="logo-row"><div class="logo-mark"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C12 2 5 11 5 16C5 19.866 8.13401 23 12 23C15.866 23 19 19.866 19 16C19 11 12 2 12 2Z" fill="white"/></svg></div><div class="logo-text">Operación Diaria</div></div></div></div>
-    <div class="wrap"><div class="content-pad">
-      <div class="empty-state">No se pudo sincronizar: ${msg}<br><br>
-      <button class="btn" onclick="location.reload()">Reintentar</button></div>
-    </div></div>
-  `;
+  document.getElementById('app').innerHTML=`
+    <div class="topbar"><div class="topbar-inner"><div class="logo-row"><div class="logo-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2C12 2 5 11 5 16C5 19.866 8.134 23 12 23C15.866 23 19 19.866 19 16C19 11 12 2 12 2Z" fill="white"/></svg></div><div class="logo-text">Operación Diaria</div></div></div></div>
+    <div class="wrap"><div class="content-pad"><div class="empty-state">No se pudo sincronizar: ${msg}<br><br><button class="btn" onclick="location.reload()">Reintentar</button></div></div></div>`;
 }
 
-// --- Push Notifications setup ---
-const VAPID_PUBLIC_KEY = 'BCEeoQdwMjMQyF0gYsoUfQLItcMXlsAnF6MO0mpW8CYEbVfzunJ7cKRFWNbf6KFQiixH5GjM30X2es2tQ7djXX0';
-
-function urlBase64ToUint8Array(base64String){
-  const padding = '='.repeat((4 - base64String.length % 4) % 4);
-  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
-  const rawData = window.atob(base64);
-  return Uint8Array.from([...rawData].map(c => c.charCodeAt(0)));
+function urlBase64ToUint8Array(b){
+  const padding='='.repeat((4-b.length%4)%4);
+  const base64=(b+padding).replace(/-/g,'+').replace(/_/g,'/');
+  return Uint8Array.from([...window.atob(base64)].map(c=>c.charCodeAt(0)));
 }
 
-window.enableNotifications = async function(){
-  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-    alert('Tu navegador no soporta notificaciones push.');
-    return;
-  }
-  try {
-    const reg = await navigator.serviceWorker.register('/sw.js');
-    const permission = await Notification.requestPermission();
-    if (permission !== 'granted') {
-      alert('No se otorgó el permiso de notificaciones.');
-      return;
-    }
-    const sub = await reg.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
-    });
-    await fetch('/api/subscribe', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(sub)
-    });
-    localStorage.setItem('notif_enabled', '1');
+window.enableNotifications=async function(){
+  if(!('serviceWorker' in navigator)||!('PushManager' in window)){ alert('Tu navegador no soporta notificaciones push.'); return; }
+  try{
+    const reg=await navigator.serviceWorker.register('/sw.js');
+    const permission=await Notification.requestPermission();
+    if(permission!=='granted'){ alert('No se otorgó el permiso de notificaciones.'); return; }
+    const sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:urlBase64ToUint8Array(VAPID_PUBLIC_KEY)});
+    await fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(sub)});
+    localStorage.setItem('notif_enabled','1');
     renderCurrentView();
-  } catch (e) {
-    alert('No se pudo activar: ' + e.message);
-  }
+  }catch(e){ alert('No se pudo activar: '+e.message); }
 };
 
-function notifEnabled(){ return localStorage.getItem('notif_enabled') === '1'; }
+function notifEnabled(){ return localStorage.getItem('notif_enabled')==='1'; }
 
 async function bootApp(){
   await pullDoneFromServer();
-  try {
-    const r = await fetch('/api/sync');
-    const data = await r.json();
-    if (data.error) throw new Error(data.error);
+  try{
+    const r=await fetch('/api/sync');
+    const data=await r.json();
+    if(data.error) throw new Error(data.error);
     render(data);
-  } catch (e) {
-    renderError(e.message);
-  }
+  }catch(e){ renderError(e.message); }
 }
 
 bootApp();
-
 </script>
 </body>
 </html>
+```
